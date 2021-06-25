@@ -10,7 +10,9 @@
       :disabled="item.disabled"
       :placeholder="item.holder || '请选择'"
       @change="change"
+      :size="item.size"
     >
+      <a-icon slot="suffixIcon" :type="item.icon" />
       <a-select-option
         v-for="(iitem, ind) in item.options"
         :key="ind + '_option'"
@@ -26,16 +28,16 @@ export default {
   data() {
     return {
       select_val: undefined
-    };
+    }
   },
   computed: {
     value() {
       const res = this.item.options.find(
-        i => (i.value || i._id || i.id || i.name) == this.select_val
-      );
+        (i) => (i.value || i._id || i.id || i.name) == this.select_val
+      )
 
-      if (!res) return undefined;
-      return res.label || res.name;
+      if (!res) return undefined
+      return res.label || res.name
     }
   },
   props: {
@@ -49,7 +51,7 @@ export default {
     item_name: {
       immediate: true,
       handler(val) {
-        this.select_val = val;
+        this.select_val = val
       }
     }
   },
@@ -59,15 +61,15 @@ export default {
         option.componentOptions.children[0].text
           .toLowerCase()
           .indexOf(input.toLowerCase()) >= 0
-      );
+      )
     },
     change(val) {
       const params = {
         item_name: this.item.name,
         item_val: this.select_val
-      };
-      this.$emit("getVal", params);
+      }
+      this.$emit('getVal', params)
     }
   }
-};
+}
 </script>

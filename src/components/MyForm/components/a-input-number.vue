@@ -6,6 +6,8 @@
       :precision="item.precision || undefined"
       :min="item.min || 0"
       :max="item.max || Infinity"
+      :size="item.size"
+      :precision="item.precision"
       @change="change"
     />
     <span style="marginLeft: 20px" v-if="item.tip">{{ item.tip }}</span>
@@ -16,8 +18,8 @@
 export default {
   data() {
     return {
-      input_val: ""
-    };
+      input_val: ''
+    }
   },
   props: {
     item: {
@@ -33,7 +35,7 @@ export default {
     item_name: {
       immediate: true,
       handler(val) {
-        this.input_val = val;
+        this.input_val = val
       }
     }
   },
@@ -42,9 +44,9 @@ export default {
       const params = {
         item_name: this.item.name,
         item_val: this.input_val
-      };
-      this.$emit("getVal", params);
+      }
+      this.$emit('getVal', params)
     }
   }
-};
+}
 </script>

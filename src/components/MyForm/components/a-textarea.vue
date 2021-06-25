@@ -23,8 +23,8 @@
 export default {
   data() {
     return {
-      textarea_val: ""
-    };
+      textarea_val: ''
+    }
   },
   props: {
     item: {
@@ -37,21 +37,31 @@ export default {
     item_name: {
       immediate: true,
       handler(val) {
-        this.textarea_val = val;
+        this.textarea_val = val
       }
     }
   },
   methods: {
     textareaChange(event, item) {
       if (item.showLimit && this.textarea_val.length >= item.maxLength) {
-        this.textarea_val = this.textarea_val.substring(0, item.maxLength);
+        this.textarea_val = this.textarea_val.substring(0, item.maxLength)
       }
       const params = {
         item_name: this.item.name,
         item_val: this.textarea_val
-      };
-      this.$emit("getVal", params);
+      }
+      this.$emit('getVal', params)
     }
   }
-};
+}
 </script>
+
+<style>
+.textarea_limit_wrap {
+  position: absolute;
+  right: 24px;
+  bottom: 8px;
+  height: 20px;
+  color: rgba(0, 0, 0, 0.25);
+}
+</style>

@@ -4,11 +4,14 @@
       style="width: 300px"
       :allowClear="item.allowClear"
       :placeholder="item.holder || '请填写'"
+      :size="item.size || 'default'"
       :disabled="item.disabled"
       :maxLength="item.maxLength"
       v-model="input_value"
       @input="change"
     >
+      <a-icon slot="prefix" :type="item.prefix.icon" v-if="item.prefix" />
+      <a-icon slot="suffix" :type="item.suffix.icon" v-if="item.suffix" />
       <template #suffix v-if="item.maxLength">
         <div class="input_suffix">
           {{ input_value && input_value.length ? input_value.length : 0 }}
@@ -22,11 +25,11 @@
 
 <script>
 export default {
-  name: "input",
+  name: 'input',
   data() {
     return {
-      input_value: ""
-    };
+      input_value: ''
+    }
   },
   props: {
     item: {
@@ -35,14 +38,14 @@ export default {
     },
     item_name: {
       type: String,
-      default: ""
+      default: ''
     }
   },
   watch: {
     item_name: {
       immediate: true,
       handler(val) {
-        this.input_value = val;
+        this.input_value = val
       }
     }
   },
@@ -51,9 +54,9 @@ export default {
       const params = {
         item_name: this.item.name,
         item_val: this.input_value
-      };
-      this.$emit("getVal", params);
+      }
+      this.$emit('getVal', params)
     }
   }
-};
+}
 </script>

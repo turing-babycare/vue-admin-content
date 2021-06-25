@@ -8,8 +8,9 @@
       :model="itemData"
       v-bind="formItemLayout"
     >
-      <!-- 栅格列布局，表单 -->
-      <a-row v-if="formColumn > 1" :gutter="24" class="clearfix">
+      {{ form }}
+      <!-- 表单 -->
+      <a-row v-if="form.formColumn > 1" :gutter="24" class="clearfix">
         <template v-for="(item, index) in formItem">
           <a-col
             :span="item.colSpan ? item.colSpan : 24 / formColumn"
@@ -25,7 +26,7 @@
         </template>
       </a-row>
 
-      <!-- 垂直、水平、inline布局 -->
+      <!-- 搜索 -->
       <template v-else v-for="(item, index) in formItem">
         <FormItem :item="item" :key="index" :form="form" :formData="itemData">
           <slot :name="item.slotName"></slot>
@@ -33,7 +34,7 @@
       </template>
 
       <!-- 操作按钮 -->
-      <a-form-model-item :wrapper-col="buttonItemLayout.wrapperCol">
+      <a-form-model-item>
         <a-row :gutter="20" class="clearfix" style="display:flex">
           <a-col v-for="(it, index) in form.btn" :key="index">
             <Abutton
@@ -48,121 +49,121 @@
   </div>
 </template>
 <script>
-import FormItem from "./FormItem";
-import Abutton from "./components/a-button.vue";
+import FormItem from './FormItem'
+import Abutton from './components/a-button.vue'
+import config from '../../services/config.js'
 export default {
   components: { FormItem, Abutton },
-  name: "index",
+  name: 'index',
   props: {
     formData: { type: Object, default: () => {} },
     form: {
       type: Object,
       default: () => {
-        return { layout: "", btnTxt: "", cancelBtnTxt: "" };
+        return {
+          layout: '',
+          btn: [],
+          colon: '',
+          labelCol: { span: 4 },
+          wrapperCol: { span: 20 },
+          formColumn: 1
+        }
       }
+    },
+    baseUrl: {
+      type: String,
+      default: ''
     },
     rules: {},
-    labelCol: {
-      type: Object,
-      default: () => {
-        return { span: 4 };
-      }
-    },
-    formColumn: {
-      type: Number,
-      default: 1
-    },
     formItem: {
       type: Array,
       default: () => []
-    },
-    wrapperCol: {
-      type: Object,
-      default: () => {
-        return { span: 20 };
-      }
     }
   },
   data() {
     return {
       itemData: {}
-    };
+    }
   },
   watch: {
+    baseUrl: {
+      immediate: true,
+      handler(val) {
+        config.baseURL = val
+        console.log(this.config, 'config')
+        console.log(config, 'config')
+      }
+    },
     formData: {
       immediate: true,
       handler(val) {
         if (Object.keys(val).length) {
-          this.itemData = val;
+          this.itemData = val
         }
       }
     },
     formItem: {
       immediate: true,
       handler(item) {
-        item.map(i => {
-          this.$set(this.itemData, i.name, this.formData[i.name] || undefined);
-        });
+        item.map((i) => {
+          this.$set(this.itemData, i.name, this.formData[i.name] || undefined)
+        })
       }
     }
   },
   computed: {
     btnWrapperCol() {
-      return { span: this.wrapperCol.span, offset: this.labelCol.span };
+      return {
+        span: this.form.wrapperCol.span,
+        offset: this.form.labelCol.span
+      }
     },
     formItemLayout() {
-      const { layout } = this.form;
+      const { layout } = this.form
       let obj =
-        layout === "horizontal"
+        layout === 'horizontal'
           ? {
-              labelCol: this.labelCol,
-              wrapperCol: this.wrapperCol
+              labelCol: this.form.labelCol,
+              wrapperCol: this.form.wrapperCol
             }
-          : layout === "vertical"
+          : layout === 'vertical'
           ? {}
-          : {};
-      return obj;
-    },
-    buttonItemLayout() {
-      const { layout } = this.form;
-      return layout === "horizontal"
-        ? {
-            wrapperCol: this.btnWrapperCol
-          }
-        : {};
+          : {}
+      console.log(obj, 'obj')
+      return obj
     }
   },
   methods: {
     btnClick(val) {
       switch (val) {
-        case "submit":
-          this.onSubmit();
-          break;
-        case "cancel":
-          this.onCancel();
-          break;
+        case 'submit':
+          this.onSubmit()
+          break
+        case 'cancel':
+          this.onCancel()
+          break
         default:
-          this.$emit(val);
+          this.$emit(val)
       }
     },
     onSubmit() {
-      this.$refs.myForm.validate(valid => {
+      this.$refs.myForm.validate((valid) => {
         if (valid) {
-          this.$emit("submit", _.cloneDeep(this.itemData));
+          this.$emit('submit', _.cloneDeep(this.itemData))
         } else {
-          return false;
+          return false
         }
-      });
+      })
     },
     onCancel() {
-      this.$refs.myForm.resetFields();
-      this.$emit("cancel");
-      this.formItem.forEach(i => {
-        this.$set(this.itemData, i.name, undefined);
-      });
+      this.$refs.myForm.resetFields()
+      this.$emit('cancel')
+      this.formItem.forEach((i) => {
+        this.$set(this.itemData, i.name, undefined)
+      })
     }
   }
-};
+}
 </script>
 
 <style scoped>

@@ -5,6 +5,9 @@
       @change="change"
       v-model="auth_val"
       :dataSource="item.options"
+      :allowClear="item.allowClear"
+      :disabled="item.disabled"
+      :open="item.open"
       :filterOption="
         typeof item.filterOption !== 'undefined'
           ? item.filterOption
@@ -17,11 +20,11 @@
 </template>
 <script>
 export default {
-  name: "input",
+  name: 'input',
   data() {
     return {
-      auth_val: ""
-    };
+      auth_val: ''
+    }
   },
   props: {
     item: {
@@ -34,7 +37,7 @@ export default {
     item_name: {
       immediate: true,
       handler(val) {
-        this.auth_val = val;
+        this.auth_val = val
       }
     }
   },
@@ -44,15 +47,15 @@ export default {
         option.componentOptions.children[0].text
           .toLowerCase()
           .indexOf(input.toLowerCase()) >= 0
-      );
+      )
     },
     change() {
       const params = {
         item_name: this.item.name,
         item_val: this.auth_val
-      };
-      this.$emit("getVal", params);
+      }
+      this.$emit('getVal', params)
     }
   }
-};
+}
 </script>

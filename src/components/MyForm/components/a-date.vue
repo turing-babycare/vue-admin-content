@@ -15,8 +15,8 @@
 export default {
   data() {
     return {
-      date_val: ""
-    };
+      date_val: ''
+    }
   },
   props: {
     item: {
@@ -29,7 +29,7 @@ export default {
     item_name: {
       immediate: true,
       handler(val) {
-        this.date_val = val;
+        this.date_val = val
       }
     }
   },
@@ -38,9 +38,9 @@ export default {
       const params = {
         item_name: this.item.name,
         item_val: this.date_val
-      };
-      this.$emit("getVal", params);
+      }
+      this.$emit('getVal', params)
     }
   }
-};
+}
 </script>

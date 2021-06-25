@@ -13,6 +13,7 @@
       tree-checkable
       tree-default-expand-all
       :placeholder="item.holder || '请选择'"
+      :allowClear="item.allowClear"
       :replaceFields="
         item.replaceFields || {
           title: 'label',
@@ -32,7 +33,7 @@ export default {
   data() {
     return {
       tree_val: undefined
-    };
+    }
   },
   props: {
     item: {
@@ -45,7 +46,7 @@ export default {
     item_name: {
       immediate: true,
       handler(val) {
-        this.tree_val = val;
+        this.tree_val = val
       }
     }
   },
@@ -54,9 +55,9 @@ export default {
       const params = {
         item_name: this.item.name,
         item_val: this.tree_val
-      };
-      this.$emit("getVal", params);
+      }
+      this.$emit('getVal', params)
     }
   }
-};
+}
 </script>

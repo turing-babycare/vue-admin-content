@@ -10,26 +10,28 @@
     :wrapperCol="item.wrapperCol"
     :style="item.style || ''"
   >
+    <!--文字提示-->
     <span v-if="item.tooltip" style="margin-right:8px;">
       <Atooltip
         style="display:inline-block;"
         :tooltip="item.tooltip"
       ></Atooltip>
     </span>
-    <div v-if="item.type === 'input'">
-      <Ainput
-        :item="item"
-        :item_name="formData[item.name]"
-        @getVal="getVal"
-      ></Ainput>
-    </div>
-    <div v-if="item.type === 'textarea'" class="textarea_wrap">
-      <Atextarea
-        :item="item"
-        :item_name="formData[item.name]"
-        @getVal="getVal"
-      ></Atextarea>
-    </div>
+    <!--输入框-->
+    <Ainput
+      v-if="item.type === 'input'"
+      :item="item"
+      :item_name="formData[item.name]"
+      @getVal="getVal"
+    ></Ainput>
+    <!--文本域-->
+    <Atextarea
+      v-if="item.type === 'textarea'"
+      class="textarea_wrap"
+      :item="item"
+      :item_name="formData[item.name]"
+      @getVal="getVal"
+    ></Atextarea>
     <div class="text_box" v-if="item.type === 'text'">
       <span
         v-if="typeof item.name !== 'string' && item.name && item.name.length"
@@ -43,9 +45,11 @@
       </span>
       <span v-else> {{ formData[item.name] }}</span>
     </div>
+    <!--性别-->
     <div class="text_box" v-if="item.type === 'gender'">
       {{ genderOption(formData[item.name]) }}
     </div>
+    <!--时间-->
     <div class="text_box" v-if="item.type === 'dateTxt'">
       {{ formatTime(formData[item.name]) }}
     </div>
@@ -58,24 +62,28 @@
         <img style="object-fit: cover;" :src="formData[item.name]" alt="" />
       </div>
     </div>
+    <!--树选择-->
     <Atreeselect
       v-if="item.type === 'treeSelect'"
       :item="item"
       :item_name="formData[item.name]"
       @getVal="getVal"
     ></Atreeselect>
+    <!--自动完成-->
     <Aautocomplete
       v-if="item.type === 'autoComplete'"
       :item="item"
       :item_name="formData[item.name]"
       @getVal="getVal"
     ></Aautocomplete>
+    <!--下拉框-->
     <Aselect
       v-if="item.type === 'select'"
       :item="item"
       :item_name="formData[item.name] || undefined"
       @getVal="getVal"
     ></Aselect>
+    <!--级联选择器-->
     <Acascader
       v-if="item.type === 'cascader'"
       :item="item"
@@ -83,14 +91,15 @@
       @getVal="getVal"
     >
     </Acascader>
-    <template v-if="item.type === 'inputNumber'">
-      <AinputNumber
-        :item="item"
-        :item_name="formData[item.name] * 1 || undefined"
-        @getVal="getVal"
-      >
-      </AinputNumber>
-    </template>
+    <!--数值输入-->
+    <AinputNumber
+      v-if="item.type === 'inputNumber'"
+      :item="item"
+      :item_name="formData[item.name] * 1 || undefined"
+      @getVal="getVal"
+    >
+    </AinputNumber>
+    <!--多选框-->
     <Acheckbox
       v-if="item.type === 'checkbox'"
       :item="item"
@@ -98,6 +107,7 @@
       @getVal="getVal"
     >
     </Acheckbox>
+    <!--单选-->
     <Aradio
       style="display:inline-block;"
       v-if="item.type === 'radio'"
@@ -106,18 +116,49 @@
       @getVal="getVal"
     >
     </Aradio>
+    <!--单日期选择-->
     <Adate
       v-if="item.type === 'date'"
       :item="item"
       :item_name="formData[item.name]"
       @getVal="getVal"
     ></Adate>
+    <!--日期范围选择-->
     <Arange
       v-if="item.type === 'rangedate'"
       :item="item"
       :item_name="formData[item.name]"
       @getVal="getVal"
     ></Arange>
+    <!--岁月天选择-->
+    <Aage
+      v-if="item.type === 'age'"
+      :item="item"
+      :item_name="formData[item.name]"
+      @getVal="getVal"
+    ></Aage>
+    <!--图片上传-->
+    <div v-if="item.type === 'upload'">
+      <upload
+        :uploadApi="uploadApi"
+        :name="item.name"
+        :imgStyle="item.imgStyle"
+        :borderRadius="item.borderRadius || false"
+        :imgRadius="item.imgRadius || false"
+        :defaultFileList="defaultList(item)"
+        :typeTip="item.typeTip"
+        @uploadOk="getVal"
+      >
+      </upload>
+    </div>
+    <div v-if="item.type === 'uploadlist'">
+      <uploader-list
+        @change="uploadListChange"
+        :uploadList="formData[item.name]"
+        :item_name="item.name"
+        :max="item.max"
+      />
+    </div>
     <div v-if="item.type === 'timeRange'">
       <Atime :item="item" :item_name="formData[item.name]" @getVal="getVal">
       </Atime>
@@ -151,30 +192,27 @@
   </a-form-model-item>
 </template>
 <script>
-// import moment from 'moment'
-// import { uploadApi } from '@/services/upload.js'
-// import upload from '../upload'
-// import UploaderList from '../UploaderList'
-import { genderOption } from "../../utils/dictionary";
-
-import Atooltip from "./components/a-tooltip.vue";
-import Ainput from "./components/a-input.vue";
-import Atextarea from "./components/a-textarea.vue";
-import Atreeselect from "./components/a-tree-select.vue";
-import Aautocomplete from "./components/a-auth.vue";
-import Aselect from "./components/a-select.vue";
-import Acascader from "./components/a-cascader.vue";
-import AinputNumber from "./components/a-input-number.vue";
-import Acheckbox from "./components/a-checkbox.vue";
-import Aradio from "./components/a-radio.vue";
-import Adate from "./components/a-date.vue";
-import Arange from "./components/a-range";
-import Atime from "./components/a-time.vue";
+import { uploadApi } from '../../services/upload'
+import upload from '../upload'
+import UploaderList from '../UploaderList'
+import { genderOption } from '../../utils/dictionary'
+import Atooltip from './components/a-tooltip.vue'
+import Ainput from './components/a-input.vue'
+import Atextarea from './components/a-textarea.vue'
+import Atreeselect from './components/a-tree-select.vue'
+import Aautocomplete from './components/a-auto.vue'
+import Aselect from './components/a-select.vue'
+import Acascader from './components/a-cascader.vue'
+import AinputNumber from './components/a-input-number.vue'
+import Acheckbox from './components/a-checkbox.vue'
+import Aradio from './components/a-radio.vue'
+import Adate from './components/a-date.vue'
+import Arange from './components/a-range'
+import Atime from './components/a-time.vue'
+import Aage from './components/a-age.vue'
 export default {
-  name: "item",
+  name: 'item',
   components: {
-    // upload,
-    // UploaderList,
     Atooltip,
     Ainput,
     Atextarea,
@@ -187,12 +225,15 @@ export default {
     Aradio,
     Adate,
     Arange,
-    Atime
+    Atime,
+    Aage,
+    upload,
+    UploaderList
   },
   computed: {
-    // uploadApi() {
-    //   return uploadApi
-    // }
+    uploadApi() {
+      return uploadApi
+    }
   },
   props: {
     item: {
@@ -203,7 +244,7 @@ export default {
     form: {
       type: Object,
       default: () => {
-        return { layout: "", btnTxt: "", cancelBtnTxt: "" };
+        return { layout: '', btnTxt: '', cancelBtnTxt: '' }
       }
     }
   },
@@ -211,84 +252,81 @@ export default {
     formData: {
       immediate: true,
       handler(val) {
-        this.formData = val;
+        this.formData = val
       }
     }
   },
   methods: {
-    // moment,
     genderOption,
     showItem(item) {
       // 没有关联项时直接显示
-      if (item.show) {
-        return true;
+      if (item.show || !item.cascaderItem) return true
+      if (item.cascaderType && !item.parentType) {
+        return this.oneShow(
+          item.cascaderValue,
+          item.cascaderItem,
+          item.cascaderType
+        )
       }
-      if (!item.cascaderItem) {
-        return true;
-        // 有关联项时再进行判断
-      } else {
-        // 当关联项的值等于某值时显示
-        if (item.cascaderValue || item.cascaderValue === false) {
-          // 当某项值等于或存在某个值时显示（如：数组中存在某个值则显示）
-          if (item.parentCascader) {
-            if (item.parentVal != this.formData[item.parentCascader]) {
-              return false;
-            }
-          }
-          if (
-            item.cascaderValue === this.formData[item.cascaderItem] ||
-            this._.indexOf(
-              this.formData[item.cascaderItem],
-              item.cascaderValue
-            ) != -1 ||
-            this._.indexOf(
-              item.cascaderValue,
-              this.formData[item.cascaderItem]
-            ) != -1
-          ) {
-            return true;
-          } else {
-            return false;
-          }
-        } else {
-          // 当关联项的值不等于某个值时显示
-          if (
-            this.formData[item.cascaderItem] &&
-            this.formData[item.cascaderItem] !== item.cascaderValueNot
-          ) {
-            return true;
-          } else {
-            return false;
-          }
-        }
+      if (item.cascaderType && item.parentType) {
+        return this.parentShow(item)
       }
     },
-
+    oneShow(value, item, type) {
+      const state = item.filter((it, index) => {
+        return value[index] === this.formData[item[index]]
+      })
+      if (type === 'and') {
+        return state.toString() === item.toString() ? true : false
+      }
+      if (type === 'or') {
+        return this._.indexOf(item, state.join(',')) > -1 ||
+          state.toString() === item.toString()
+          ? true
+          : false
+      }
+    },
+    parentShow(item) {
+      const parent = this.oneShow(
+        item.parentVal,
+        item.parentCascader,
+        item.parentType
+      )
+      const cascader = this.oneShow(
+        item.cascaderValue,
+        item.cascaderItem,
+        item.cascaderType
+      )
+      return parent && cascader ? true : false
+    },
     defaultList(item) {
-      let arr = [];
+      let arr = []
       if (item && this.formData[item.name]) {
         arr.push({
-          uid: this.formData.id + "" || Math.random() * 10 + "",
-          name: this.formData.id + "" || Math.random() * 10 + "",
-          status: "done",
+          uid: this.formData.id + '' || Math.random() * 10 + '',
+          name: this.formData.id + '' || Math.random() * 10 + '',
+          status: 'done',
           url: this.formData[item.name]
-        });
+        })
       }
-      return arr;
+      return arr
     },
     uploadOk(val) {
-      this.formData[val.name] = val.img;
+      this.formData[val.name] = val.img
     },
-    // selectChange(value, option) {
-    //   const params = { value, option }
-    //   this.$emit('selectChange', params)
-    // },
-
+    uploadListChange(val) {
+      if (Array.isArray(val)) {
+        this.formData[val[0].item_name] = val
+      } else {
+        this.formData[val.item_name].push(val)
+      }
+      console.log(this.formData[val.item_name], 'this.formData[val.item_name]')
+    },
     getVal(val) {
-      this.formData[val.item_name] = val.item_val;
+      this.formData[val.item_name] = val.item_val
     }
   }
-};
+}
 </script>
 <style lang="scss">
 .ant-select-selection--single .ant-select-selection__rendered {
@@ -328,13 +366,7 @@ export default {
 .textarea_wrap {
   position: relative;
 }
-.textarea_limit_wrap {
-  position: absolute;
-  right: 24px;
-  bottom: 8px;
-  height: 20px;
-  color: rgba(0, 0, 0, 0.25);
-}
+
 .avatar_box {
   padding: 6px;
   // width: 106px;

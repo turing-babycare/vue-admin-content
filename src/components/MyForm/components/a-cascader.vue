@@ -7,11 +7,13 @@
       v-model="cascader_val"
       :options="item.options || []"
       change-on-select
+      :size="item.size || 'default'"
       :fieldNames="item.fieldNames"
       @change="change"
     >
+      <a-icon slot="suffixIcon" :type="item.icon" class="test" />
       <template slot="displayRender" slot-scope="{ labels }">
-        <span>{{ labels.join("-") }}</span>
+        <span>{{ labels.join('-') }}</span>
       </template>
     </a-cascader>
   </div>
@@ -21,7 +23,7 @@ export default {
   data() {
     return {
       cascader_val: []
-    };
+    }
   },
   props: {
     item: {
@@ -34,7 +36,7 @@ export default {
     item_name: {
       immediate: true,
       handler(val) {
-        this.cascader_val = val;
+        this.cascader_val = val
       }
     }
   },
@@ -43,9 +45,9 @@ export default {
       const params = {
         item_name: this.item.name,
         item_val: this.cascader_val
-      };
-      this.$emit("getVal", params);
+      }
+      this.$emit('getVal', params)
     }
   }
-};
+}
 </script>

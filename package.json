@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "ant-design-vue": "^1.7.5",
+    "axios": "^0.21.1",
     "dayjs": "^1.10.5",
     "lodash": "^4.17.21",
     "vue": "^2.5.11"

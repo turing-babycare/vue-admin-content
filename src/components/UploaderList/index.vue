@@ -1,7 +1,7 @@
 <template>
   <div class="upload-list">
     <thumb-container
-      v-for="({ type, url }, index) in curUploadList"
+      v-for="({ type, url }, index) in uploadList"
       :key="index"
       :file-type="type ? type : 'image'"
       :thumb-url="getThumbUrl(url, type)"
@@ -12,7 +12,8 @@
       inline
       @close="handleDeleteFile(index)"
       @click.native.stop="thumbClickFun(type, url)"
-    />
+    ></thumb-container>
+
     <uploader
       v-if="curMax > 0 && !disabled"
       class="upload-list__item upload-list__item--last"
@@ -27,26 +28,18 @@
         <span>最多{{ max }}个</span>
       </div>
     </uploader>
-    <!-- <monitor
-      ref="monitor"
-      :need-refresh="true"
-      :monitor-info="monitorInfo"
-      :current-image-url-arr="curUploadUrlList"
-    /> -->
   </div>
 </template>
 
 <script>
-import Uploader from '@/components/Uploader'
-import ThumbContainer from '@/components/ThumbContainer'
-// import Monitor from '@/components/Monitor'
-
-import { deepCopy, isArray } from '@/utils'
+import Uploader from '../Uploader/index.vue'
+import ThumbContainer from '../ThumbContainer/index.vue'
+import _ from 'lodash'
+import { deepCopy, isArray } from '../../utils/index.js'
 export default {
   components: {
     Uploader,
     ThumbContainer
-    // Monitor
   },
   model: {
     prop: 'uploadList',
@@ -56,6 +49,10 @@ export default {
     uploadList: {
       type: Array || undefined,
       default: () => []
+    },
+    item_name: {
+      type: String,
+      default: ''
     },
     value: {
       type: Array || undefined,
@@ -82,7 +79,6 @@ export default {
     return {
       monitorInfo: {},
       curUploadList: []
-      // curUploadUrlList: []
     }
   },
   computed: {
@@ -96,25 +92,15 @@ export default {
       return this.max >= this.curUploadList.length
         ? this.max - this.curUploadList.length
         : 0
-    },
-    curUploadUrlList() {
-      let array = []
-      this.curUploadList.map((item) => {
-        if (item.type === 'image') {
-          if (item && item.type === 'image') {
-            array.push(item.url)
-          }
-        }
-      })
-      return array
     }
   },
   watch: {
     uploadList: {
-      handler: function(value) {
-        if (value && isArray(value)) this.curUploadList = deepCopy(value)
-      },
-      immediate: true
+      deep: true,
+      immediate: true,
+      handler(value) {
+        if (value && isArray(value)) this.curUploadList = _.cloneDeep(value)
+      }
     },
     value: {
       handler: function(value) {
@@ -125,6 +111,7 @@ export default {
   },
   methods: {
     getThumbUrl(url, type) {
+      console.log(url, type, 'type')
       switch (type) {
         case 'image':
           return url + `?x-oss-process=image/resize,h_${parseFloat(this.width)}`
@@ -137,6 +124,7 @@ export default {
     },
     onImageUpload(res) {
       this.$emit('change', {
+        item_name: this.item_name,
         url: res.url,
         type:
           res.file && res.file.type && res.file.type.indexOf('video') > -1
@@ -148,16 +136,7 @@ export default {
       this.$message.error('超出一次能上传的最大个数，超出的文件不上传')
     },
     handleDeleteFile(index) {
-      if (
-        this.monitorInfo &&
-        this.monitorInfo.meta &&
-        this.monitorInfo.meta.url &&
-        this.curUploadList[index].url === this.monitorInfo.meta.url
-      ) {
-        if (this.$refs.monitor) this.$refs.monitor.viewerReset()
-        this.monitorInfo = {}
-      }
-      const curUploadList = deepCopy(this.curUploadList)
+      const curUploadList = deepCopy(this.uploadList)
       curUploadList.splice(index, 1)
       this.$emit('change', curUploadList)
     },
