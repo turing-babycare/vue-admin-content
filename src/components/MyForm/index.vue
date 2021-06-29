@@ -102,23 +102,20 @@ export default {
     }
   },
   computed: {
-    btnWrapperCol() {
-      return {
-        span: this.form.wrapperCol.span,
-        offset: this.form.labelCol.span
-      }
-    },
     formItemLayout() {
+      console.log(this.form, 'this.form')
       const { layout } = this.form
+      console.log(layout, 'layout')
       let obj =
         layout === 'horizontal'
           ? {
-              labelCol: this.form.labelCol,
-              wrapperCol: this.form.wrapperCol
+              labelCol: this.form.labelCol.span,
+              wrapperCol: this.form.wrapperCol.span
             }
           : layout === 'vertical'
           ? {}
           : {}
+      console.log(obj, 'obj')
       return obj
     }
   },

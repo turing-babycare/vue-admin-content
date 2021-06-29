@@ -118,9 +118,9 @@ export const extname = (filename) => {
  * @param onProgress
  * @returns {Promise.<*>}
  */
-export const uploadApi = async (file, onProgress) => {
+export const uploadApi = async (file, onProgress, url) => {
   const File = file.file
-  const data = await oss()
+  const data = await oss(url)
   const random = Math.floor(Math.random() * (100 - 1)) + 1
   let fileName = new Date().getTime()
   const fileType = extname(File.name)

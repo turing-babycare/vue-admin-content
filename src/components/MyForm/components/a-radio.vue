@@ -19,8 +19,8 @@
 export default {
   data() {
     return {
-      radio_val: ""
-    };
+      radio_val: ''
+    }
   },
   props: {
     item: {
@@ -28,14 +28,15 @@ export default {
       default: () => {}
     },
     item_name: {
-      default: ""
+      default: ''
     }
   },
   watch: {
     item_name: {
       immediate: true,
       handler(val) {
-        this.radio_val = val;
+        console.log(val, 'radio')
+        this.radio_val = val
       }
     }
   },
@@ -44,9 +45,9 @@ export default {
       const params = {
         item_name: this.item.name,
         item_val: this.radio_val
-      };
-      this.$emit("getVal", params);
+      }
+      this.$emit('getVal', params)
     }
   }
-};
+}
 </script>

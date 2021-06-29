@@ -147,7 +147,11 @@
         :imgRadius="item.imgRadius || false"
         :defaultFileList="defaultList(item)"
         :typeTip="item.typeTip"
-        @uploadOk="getVal"
+        @uploadOk="
+          (...upload) => {
+            uploadOk(...upload, item.name)
+          }
+        "
       >
       </upload>
     </div>
@@ -315,8 +319,8 @@ export default {
       }
       return arr
     },
-    uploadOk(val) {
-      this.formData[val.name] = val.img
+    uploadOk(val, name) {
+      this.formData[name] = val.img
     },
     uploadListChange(val, name) {
       if (Array.isArray(val) && val.length === 0) {

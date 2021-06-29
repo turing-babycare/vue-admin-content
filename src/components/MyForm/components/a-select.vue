@@ -5,7 +5,6 @@
       v-model="select_val"
       :mode="item.mode || 'default'"
       allowClear
-      :showSearch="item.showSearch || false"
       :filterOption="filterOption"
       :disabled="item.disabled"
       :placeholder="item.holder || '请选择'"

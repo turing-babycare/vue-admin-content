@@ -146,7 +146,7 @@ export default {
       }
       this.loading = true
       this.fileList = []
-      const data = await this.uploadApi(file, (progress) => {})
+      const data = await this.uploadApi(file, (progress) => {}, this.baseUrl)
       this.fileList.push({
         uid: file.file.name + this._.random(0, 100),
         name: file.file.name,

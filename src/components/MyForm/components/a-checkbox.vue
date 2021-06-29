@@ -1,6 +1,10 @@
 <template>
   <div>
-    <a-checkbox-group v-model="checkbox_val" :disabled="item.disabled">
+    <a-checkbox-group
+      v-model="checkbox_val"
+      :disabled="item.disabled"
+      @change="change"
+    >
       <a-checkbox
         v-for="iitem in item.options"
         :key="iitem.value"
@@ -17,23 +21,21 @@ export default {
   data() {
     return {
       checkbox_val: []
-    };
+    }
   },
   props: {
     item: {
       type: Object,
       default: () => {}
     },
-    item_name: {
-      type: String,
-      default: ""
-    }
+    item_name: {}
   },
   watch: {
     item_name: {
       immediate: true,
       handler(val) {
-        this.checkbox_val = val;
+        console.log(val, 'checkbox_val')
+        this.checkbox_val = val
       }
     }
   },
@@ -42,9 +44,10 @@ export default {
       const params = {
         item_name: this.item.name,
         item_val: this.checkbox_val
-      };
-      this.$emit("getVal", params);
+      }
+      console.log(params, 'params')
+      this.$emit('getVal', params)
     }
   }
-};
+}
 </script>
