@@ -62,8 +62,8 @@ export default {
           layout: '',
           btn: [],
           colon: '',
-          labelCol: { span: 4 },
-          wrapperCol: { span: 20 },
+          labelCol: 4,
+          wrapperCol: 20,
           formColumn: 1
         }
       }
@@ -103,19 +103,16 @@ export default {
   },
   computed: {
     formItemLayout() {
-      console.log(this.form, 'this.form')
-      const { layout } = this.form
-      console.log(layout, 'layout')
+      const { layout, labelCol, wrapperCol } = this.form
       let obj =
         layout === 'horizontal'
           ? {
-              labelCol: this.form.labelCol.span,
-              wrapperCol: this.form.wrapperCol.span
+              labelCol: labelCol,
+              wrapperCol: wrapperCol
             }
           : layout === 'vertical'
           ? {}
           : {}
-      console.log(obj, 'obj')
       return obj
     }
   },

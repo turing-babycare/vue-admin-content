@@ -269,6 +269,10 @@ export default {
     showItem(item) {
       // 没有关联项时直接显示
       if (item.show || !item.cascaderItem) return true
+      // 判断对象数组是否有值
+      if(item.valueStatu){
+        this.valShow(item.cascaderItem,item.valueStatu,item.valueType)
+      }
       if (item.cascaderType && !item.parentType) {
         return this.oneShow(
           item.cascaderValue,
@@ -280,6 +284,13 @@ export default {
         return this.parentShow(item)
       }
     },
+    valShow(item,statu,type){
+      if(statu === 'obj'){
+        item.map(it=>{
+          console.log(Object.keys(this.formData[item[index]]).length,'lengths')
+        })
+      }
+    }
     oneShow(value, item, type) {
       const state = item.filter((it, index) => {
         return value[index] === this.formData[item[index]]
