@@ -111,7 +111,6 @@ export default {
   },
   methods: {
     getThumbUrl(url, type) {
-      console.log(url, type, 'type')
       switch (type) {
         case 'image':
           return url + `?x-oss-process=image/resize,h_${parseFloat(this.width)}`
@@ -138,6 +137,7 @@ export default {
     handleDeleteFile(index) {
       const curUploadList = deepCopy(this.uploadList)
       curUploadList.splice(index, 1)
+      console.log(curUploadList, 'curUploadList')
       this.$emit('change', curUploadList)
     },
     thumbClickFun(type, url) {

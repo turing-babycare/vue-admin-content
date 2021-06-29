@@ -1,11 +1,7 @@
 // import { Modal, message } from 'ant-design-vue'
 // import { Modal } from 'ant-design-vue'
-import config from './config'
 import axios from 'axios'
-const instance = axios.create({
-  // baseURL: config.baseURL
-  baseURL: this.config
-})
+const instance = axios.create()
 
 instance.interceptors.request.use((config) => {
   const token = window.localStorage.getItem('_token')
@@ -50,13 +46,12 @@ instance.interceptors.response.use(
     //   })
     //   error.message = `服务器连接失败: ${error.message}`
     // }
-    // console.log(error)
     return Promise.reject(error)
   }
 )
 
-export const oss = () => {
-  return instance.get('/oss/auth')
+export const oss = (url) => {
+  return instance.get(`${url}/oss/auth`)
 }
 
 export const getImageMeta = (url) => {
@@ -70,7 +65,6 @@ export const postObject = async ({ oss: ossData, key, file, onProgress }) => {
   data.append('Signature', ossData.Signature)
   data.append('key', key)
   data.append('file', file)
-  console.log(data.get('file'))
   let url = 'https://pic1.baobaohehu.com/'
   await axios.post(url, data, {
     headers: {
@@ -82,7 +76,6 @@ export const postObject = async ({ oss: ossData, key, file, onProgress }) => {
   let meta
   if (file.type.indexOf('image') > -1) {
     meta = await getImageMeta(url)
-    console.log(meta, 'meta')
   } else if (file.type.indexOf('video') > -1) {
     meta = {
       ...file.videoMeta,
@@ -127,9 +120,7 @@ export const extname = (filename) => {
  */
 export const uploadApi = async (file, onProgress) => {
   const File = file.file
-  // console.log('file===', File)
   const data = await oss()
-  console.log(data, 'data')
   const random = Math.floor(Math.random() * (100 - 1)) + 1
   let fileName = new Date().getTime()
   const fileType = extname(File.name)

@@ -47,7 +47,6 @@ export default {
   },
   methods: {
     async onChange(e) {
-      console.log(e, 'e')
       const fileList = e.target.files
       let fileListArr
       // 把上传的文件 FileList 类型转为 Array
@@ -59,7 +58,7 @@ export default {
           length: Math.min.apply(null, [fileList.length, this.max])
         }).reduce((acc, item, index) => acc.concat(fileList[index]), [])
       }
-      const res = await oss()
+      const res = await oss(this.baseUrl)
       this.$emit('beforeUploading')
       this.uploading = true
       this.progress = 0
@@ -91,9 +90,7 @@ export default {
             }
           }
           const url = await PostObjectAPI(apiParams)
-          console.log(url, '图片地址')
           url.file = file
-          console.log(url, 'url')
           this.$emit('upload', url)
           callback()
         },

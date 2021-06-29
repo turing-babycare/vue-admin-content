@@ -73,7 +73,6 @@ export default {
         item_name: this.item.name,
         item_val: this.age_val
       }
-      console.log(this.age_val)
       this.$emit('getVal', params)
     }
   }

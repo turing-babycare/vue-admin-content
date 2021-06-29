@@ -2,7 +2,6 @@
   <div>
     <a-input
       style="width: 300px"
-      :allowClear="item.allowClear"
       :placeholder="item.holder || '请填写'"
       :size="item.size || 'default'"
       :disabled="item.disabled"

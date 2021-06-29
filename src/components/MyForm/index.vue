@@ -8,7 +8,6 @@
       :model="itemData"
       v-bind="formItemLayout"
     >
-      {{ form }}
       <!-- 表单 -->
       <a-row v-if="form.formColumn > 1" :gutter="24" class="clearfix">
         <template v-for="(item, index) in formItem">
@@ -51,7 +50,6 @@
 <script>
 import FormItem from './FormItem'
 import Abutton from './components/a-button.vue'
-import config from '../../services/config.js'
 export default {
   components: { FormItem, Abutton },
   name: 'index',
@@ -86,14 +84,6 @@ export default {
     }
   },
   watch: {
-    baseUrl: {
-      immediate: true,
-      handler(val) {
-        config.baseURL = val
-        console.log(this.config, 'config')
-        console.log(config, 'config')
-      }
-    },
     formData: {
       immediate: true,
       handler(val) {
@@ -129,7 +119,6 @@ export default {
           : layout === 'vertical'
           ? {}
           : {}
-      console.log(obj, 'obj')
       return obj
     }
   },

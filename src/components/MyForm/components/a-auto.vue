@@ -5,7 +5,6 @@
       @change="change"
       v-model="auth_val"
       :dataSource="item.options"
-      :allowClear="item.allowClear"
       :disabled="item.disabled"
       :open="item.open"
       :filterOption="

@@ -153,7 +153,11 @@
     </div>
     <div v-if="item.type === 'uploadlist'">
       <uploader-list
-        @change="uploadListChange"
+        @change="
+          (...change) => {
+            uploadListChange(...change, item.name)
+          }
+        "
         :uploadList="formData[item.name]"
         :item_name="item.name"
         :max="item.max"
@@ -314,13 +318,15 @@ export default {
     uploadOk(val) {
       this.formData[val.name] = val.img
     },
-    uploadListChange(val) {
-      if (Array.isArray(val)) {
+    uploadListChange(val, name) {
+      if (Array.isArray(val) && val.length === 0) {
+        return (this.formData[name] = val)
+      }
+      if (Array.isArray(val) && val.length > 0) {
         this.formData[val[0].item_name] = val
       } else {
         this.formData[val.item_name].push(val)
       }
-      console.log(this.formData[val.item_name], 'this.formData[val.item_name]')
     },
     getVal(val) {
       this.formData[val.item_name] = val.item_val
