@@ -39,6 +39,7 @@
             <Abutton
               style="display: inline-block;"
               :item="it"
+              v-if="it.text"
               @btnClick="btnClick"
             ></Abutton>
           </a-col>
