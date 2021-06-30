@@ -1,6 +1,7 @@
 <template>
   <div class="upload-list">
-    <thumb-container
+  <!--
+      <thumb-container
       v-for="({ type, url }, index) in uploadList"
       :key="index"
       :file-type="type ? type : 'image'"
@@ -13,7 +14,17 @@
       @close="handleDeleteFile(index)"
       @click.native.stop="thumbClickFun(type, url)"
     ></thumb-container>
-
+  -->
+    <thumb-container
+      :uploadList="uploadList"
+      :width="width"
+      :height="height"
+      :show-close-icon="true"
+      inline
+      @close="handleDeleteFile"
+      @thunClick.native.stop="thumbClickFun(type, url)"
+    ></thumb-container>
+  <div>
     <uploader
       v-if="curMax > 0 && !disabled"
       class="upload-list__item upload-list__item--last"
@@ -33,7 +44,7 @@
 
 <script>
 import Uploader from '../Uploader/index.vue'
-import ThumbContainer from '../ThumbContainer/index.vue'
+import ThumbContainer from '../ThumbContainer/indexList.vue'
 import _ from 'lodash'
 import { deepCopy, isArray } from '../../utils/index.js'
 export default {
@@ -134,10 +145,9 @@ export default {
     overUploadMax() {
       this.$message.error('超出一次能上传的最大个数，超出的文件不上传')
     },
-    handleDeleteFile(index) {
+    handleDeleteFile(val) {
       const curUploadList = deepCopy(this.uploadList)
-      curUploadList.splice(index, 1)
-      console.log(curUploadList, 'curUploadList')
+      curUploadList.splice(val * 1, 1)
       this.$emit('change', curUploadList)
     },
     thumbClickFun(type, url) {

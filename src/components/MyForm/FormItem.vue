@@ -293,7 +293,6 @@ export default {
         return state.toString() === item.toString() ? true : false
       }
       if (type === 'or') {
-        console.log(state, 'or')
         return this._.indexOf(item, state.join(',')) > -1 ||
           state.toString() === item.toString()
           ? true
@@ -344,10 +343,11 @@ export default {
     },
     uploadListChange(val, name) {
       if (Array.isArray(val) && val.length === 0) {
-        return (this.formData[name] = val)
+        this.formData[name] = val
+        return
       }
       if (Array.isArray(val) && val.length > 0) {
-        this.formData[val[0].item_name] = val
+        this.formData[name] = val
       } else {
         this.formData[val.item_name].push(val)
       }

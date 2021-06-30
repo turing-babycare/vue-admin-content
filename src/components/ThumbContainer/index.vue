@@ -4,15 +4,18 @@
     :class="{ 'thumb-container-link': fileType === 'link' }"
     :style="containerStyle"
   >
-    <img
-      v-if="thumbUrl"
-      class="thumb-container__img"
-      width="100%"
-      height="100%"
-      :src="thumbUrl"
-      :data-src="thumbUrl"
-      alt="加载失败"
-    />
+    <div class="images" v-viewer v-if="images.length > 0">
+      <img
+        v-for="src in images"
+        class="thumb-container__img "
+        width="100%"
+        height="100%"
+        :src="src"
+        :data-src="src"
+        alt="加载失败"
+      />
+    </div>
+
     <div
       v-if="maskIsShow"
       class="mask"
@@ -42,8 +45,20 @@
   </div>
 </template>
 <script>
+import 'viewerjs/dist/viewer.css'
+import { directive as viewer } from 'v-viewer'
 export default {
   name: 'ThumbContainer',
+  directives: {
+    viewer: viewer({
+      debug: true
+    })
+  },
+  data() {
+    return {
+      images: []
+    }
+  },
   props: {
     fileType: {
       type: String,
@@ -76,6 +91,7 @@ export default {
       deep: true,
       handler(val) {
         this.thumbUrl = val
+        this.images.push(val)
       }
     }
   },

@@ -10,13 +10,16 @@
       :before-upload="beforeUpload"
       @change="handleChange"
     >
-      <img
-        :style="imgStyle"
-        :class="imgRadius ? 'img_radius' : ''"
-        v-if="fileList.length > 0"
-        :src="fileList[0].url"
-        style="object-fit: cover;"
-      />
+      <div class="images" v-viewer>
+        <img
+          :style="imgStyle"
+          :class="imgRadius ? 'img_radius' : ''"
+          v-if="fileList.length > 0"
+          :src="fileList[0].url"
+          style="object-fit: cover;"
+        />
+      </div>
+
       <div class="upload_btn_box" :style="imgStyle" v-else>
         <div>
           <a-icon :type="loading ? 'loading' : 'plus'" />
@@ -43,8 +46,15 @@ function getBase64(img, callback) {
   reader.addEventListener('load', () => callback(reader.result))
   reader.readAsDataURL(img)
 }
+import 'viewerjs/dist/viewer.css'
+import { directive as viewer } from 'v-viewer'
 export default {
   name: 'upload',
+  directives: {
+    viewer: viewer({
+      debug: true
+    })
+  },
   props: {
     uploadApi: {
       type: Function

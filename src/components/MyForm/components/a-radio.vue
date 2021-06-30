@@ -35,7 +35,6 @@ export default {
     item_name: {
       immediate: true,
       handler(val) {
-        console.log(val, 'radio')
         this.radio_val = val
       }
     }

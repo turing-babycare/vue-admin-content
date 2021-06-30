@@ -34,7 +34,6 @@ export default {
     item_name: {
       immediate: true,
       handler(val) {
-        console.log(val, 'checkbox_val')
         this.checkbox_val = val
       }
     }
@@ -45,7 +44,6 @@ export default {
         item_name: this.item.name,
         item_val: this.checkbox_val
       }
-      console.log(params, 'params')
       this.$emit('getVal', params)
     }
   }
