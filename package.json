@@ -1,7 +1,7 @@
 {
-  "name": "form_demo_vue",
+  "name": "vue-admin-content",
   "description": "A Vue.js project",
-  "version": "1.3.3",
+  "version": "1.0.0",
   "author": "汪鑫 <>",
   "license": "MIT",
   "private": false,
