@@ -5,7 +5,7 @@ import Antd from 'ant-design-vue'
 import _ from 'lodash'
 import 'ant-design-vue/dist/antd.css'
 Vue.prototype._ = _
-
+Vue.prototype.baseUrl = 'https://fhsapi-remote-develop.baobaohehu.com'
 Vue.config.productionTip = false
 Vue.use(Antd)
 

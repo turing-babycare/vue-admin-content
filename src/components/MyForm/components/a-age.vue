@@ -2,34 +2,28 @@
   <div>
     <a-row style="width: 900px" :gutter="20">
       <a-col :span="10" style="display: flex; justify-content: space-between">
-        <div v-for="(item, index) in item.age_start" :key="index">
+        <div v-for="(item, index) in item.options.age_start" :key="index">
           <a-input-number
-            @change="ageChange($event, index, 'start')"
+            @change="ageChange(item, $event, 'start')"
             id="inputNumber"
-            v-model="item.val"
-            :min="0"
             :max="item.max"
+            :min="item.min"
           />
-          {{ item.text }}
+          {{ item.label }}
         </div>
       </a-col>
       <a-col :span="1">
         <span>~</span>
       </a-col>
       <a-col :span="10" style="display: flex; justify-content: space-between">
-        <div
-          v-for="(item, index) in item.age_end"
-          :key="index"
-          :label="item.text"
-        >
+        <div v-for="(item, index) in item.options.age_end" :key="index">
           <a-input-number
-            @change="ageChange($event, index, 'end')"
+            @change="ageChange(item, $event, 'end')"
             id="inputNumber"
-            v-model="item.val"
-            :min="0"
+            :min="item.min"
             :max="item.max"
           />
-          {{ item.text }}
+          {{ item.label }}
         </div>
       </a-col>
     </a-row>
@@ -37,11 +31,6 @@
 </template>
 <script>
 export default {
-  data() {
-    return {
-      age_val: ''
-    }
-  },
   props: {
     item: {
       type: Object,
@@ -49,29 +38,75 @@ export default {
     },
     item_name: {}
   },
+  data() {
+    return {
+      age_val: {},
+      age: {
+        age_start: {
+          year: 0,
+          month: 0,
+          day: 0
+        },
+        age_end: {
+          year: 0,
+          month: 0,
+          day: 0
+        }
+      }
+    }
+  },
   watch: {
-    item_name: {
+    item: {
       immediate: true,
+      deep: true,
       handler(val) {
-        this.age_val = val
+        this.item = val
+      }
+    },
+    item_name: {
+      handler(val) {
+        console.log(val, 'val')
+        this.$next
+        if (!val) {
+          this.$nextTick(() => {
+            // this.age = {
+            //   age_start: {
+            //     year: 0,
+            //     month: 0,
+            //     day: 0
+            //   },
+            //   age_end: {
+            //     year: 0,
+            //     month: 0,
+            //     day: 0
+            //   }
+            // }
+            console.log(Object.valus(this.age))
+            this.$set(this.age, Object.valus(this.age), 0)
+          })
+        }
+        console.log(this.age, 'end')
       }
     }
   },
   methods: {
-    ageChange(val, index, type) {
+    ageChange(item, val, type) {
       if (type === 'start') {
-        this.item.age_start[index].value = val
+        const result = Object.keys(this.age.age_start).find(
+          (it) => it === item.label_key
+        )
+        this.age.age_start[result] = val
       }
       if (type === 'end') {
-        this.item.age_end[index].value = val
+        const result = Object.keys(this.age.age_end).find(
+          (it) => it === item.label_key
+        )
+        this.age.age_end[result] = val
       }
-      const start = this.item.age_start.map((it) => it.val + it.text).join('/')
-      const end = this.item.age_end.map((it) => it.val + it.text).join('/')
 
-      this.age_val = start + '~' + end
       const params = {
         item_name: this.item.name,
-        item_val: this.age_val
+        item_val: this.age
       }
       this.$emit('getVal', params)
     }

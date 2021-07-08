@@ -4,23 +4,23 @@
     :class="{ 'thumb-container-link': fileType === 'link' }"
     :style="containerStyle"
   >
-    <div class="images" v-viewer v-if="images.length > 0">
-      <img
-        v-for="src in images"
-        class="thumb-container__img"
-        width="100%"
-        height="100%"
-        :src="src"
-        :data-src="src"
-        alt="加载失败"
-      />
-    </div>
-
     <div
       v-if="maskIsShow"
       class="mask"
       :class="{ 'mask-video': fileType === 'video' }"
     >
+      <div class="images" v-viewer v-if="images.length > 0">
+        <img
+          v-for="(src, i) in images"
+          :key="i"
+          class="thumb-container__img"
+          width="100%"
+          height="100%"
+          :src="src"
+          :data-src="src"
+          alt="加载失败"
+        />
+      </div>
       <div v-if="fileType === 'video'" class="el-icon-video-play" />
       <div v-else class="icon-link">
         <div class="iconfont icon-icon-pic_lianjiex" />
@@ -66,6 +66,7 @@ export default {
       type: String,
       required: true,
       validator: function (value) {
+        console.log(value, 'value')
         const basicType = ['image', 'video', 'link', 'ellipsis']
         return basicType.indexOf(value) > -1
       }

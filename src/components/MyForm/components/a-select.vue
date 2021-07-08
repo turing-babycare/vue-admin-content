@@ -10,6 +10,7 @@
       :placeholder="item.holder || '请选择'"
       @change="change"
       :size="item.size"
+      :showSearch="item.showSearch || false"
     >
       <a-icon slot="suffixIcon" :type="item.icon" />
       <a-select-option

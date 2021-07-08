@@ -114,7 +114,7 @@ export default {
       }
     },
     value: {
-      handler: function (value) {
+      handler: function(value) {
         if (isArray(value)) this.curUploadList = deepCopy(value)
       },
       immediate: true

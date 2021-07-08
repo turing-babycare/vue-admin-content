@@ -2,7 +2,10 @@
   <div>
     <a-date-picker
       v-model="date_val"
-      show-time
+      :show-time="item.showTime"
+      :disabled="item.disabled"
+      :disabled-date="item.disabledDate"
+      :disabled-time="item.disabledRangeTime"
       type="date"
       :placeholder="item.holder || '请选择日期'"
       :style="item.style || 'width: 90%;'"
@@ -11,8 +14,10 @@
     />
   </div>
 </template>
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+import moment from 'moment'
+export default Vue.extend({
   data() {
     return {
       date_val: ''
@@ -37,10 +42,10 @@ export default {
     change() {
       const params = {
         item_name: this.item.name,
-        item_val: this.date_val
+        item_val: moment(this.date_val).format(this.item.format)
       }
       this.$emit('getVal', params)
     }
   }
-}
+})
 </script>

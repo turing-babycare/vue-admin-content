@@ -88,17 +88,20 @@ export default {
     formData: {
       immediate: true,
       handler(val) {
-        if (Object.keys(val).length) {
-          this.itemData = val
-        }
+        console.log(val)
+        // this.itemData = val
+        // if (Object.keys(val).length) {
+        // }
       }
     },
     formItem: {
       immediate: true,
       handler(item) {
-        item.map((i) => {
-          this.$set(this.itemData, i.name, this.formData[i.name] || undefined)
-        })
+        item
+          .filter((t) => t.name)
+          .map((i) => {
+            this.$set(this.itemData, i.name, this.formData[i.name] || undefined)
+          })
       }
     }
   },
@@ -145,6 +148,7 @@ export default {
       this.formItem.forEach((i) => {
         this.$set(this.itemData, i.name, undefined)
       })
+      console.log(this.formItem, 'formItem')
     }
   }
 }

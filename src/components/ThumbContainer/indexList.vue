@@ -8,21 +8,50 @@
       class="thumb-container"
       :style="containerStyle"
     >
-      <img
-        class="thumb-container__img"
-        width="100%"
-        height="100%"
-        :src="item.url"
-        :data-src="item.url"
-        alt="加载失败"
-      />
+      <div style="width: 100%; height: 100%">
+        <video
+          v-if="item.type === 'video'"
+          width="100%"
+          height="100%"
+          controls="controls"
+          :src="item.video"
+          class="el-icon-video-play"
+        ></video>
+        <img
+          class="thumb-container__img"
+          width="100%"
+          height="100%"
+          :src="item.url"
+          :data-src="item.url"
+          alt="加载失败"
+          v-else
+        />
+        <div v-if="item.type === 'ellipsis'" class="thumb-container__ellipsis">
+          <div
+            class="
+              thumb-container__ellipsis__dot
+              thumb-container__ellipsis__dot--first
+            "
+          />
+          <div class="thumb-container__ellipsis__dot" />
+          <div class="thumb-container__ellipsis__dot" />
+          <div class="thumb-container__ellipsis__dot" />
+          <div class="thumb-container__ellipsis__dot" />
+        </div>
+      </div>
 
+      <!--
       <div
         v-if="maskIsShow"
         class="mask"
-        :class="{ 'mask-video': item.item === 'video' }"
+        :class="{ 'mask-video': item.type === 'video' }"
       >
-        <div v-if="item.type === 'video'" class="el-icon-video-play" />
+        <div v-if="item.type === 'video'" class="el-icon-video-play">
+          <video
+            controls="controls"
+            src="https://pic1.baobaohehu.com/fhs/admin/521202107071444147501625640266376"
+          ></video>
+        </div>
         <div v-else class="icon-link">
           <div class="iconfont icon-icon-pic_lianjiex" />
         </div>
@@ -38,15 +67,9 @@
         <div class="thumb-container__ellipsis__dot" />
         <div class="thumb-container__ellipsis__dot" />
       </div>
+      -->
       <!--
-        <div class="setBox" :style="containerStyle">
-        <div style="margin-right: 10px;" @click="show">
-          <a-icon type="eye" />
-        </div>
-        <div v-if="showCloseIcon" @click.stop="$emit('close', index)">
-          <a-icon type="close" />
-        </div>
-      </div>
+       icon操作
       -->
       <div
         v-if="showCloseIcon"
@@ -96,7 +119,6 @@ export default {
       immediate: true,
       deep: true,
       handler(val) {
-        console.log(val, 'val')
         this.uploadlist = val.map((it) => {
           if (it.type === 'image') {
             return {
@@ -111,7 +133,8 @@ export default {
             return {
               ...it,
               type: it.type ? it.type : 'image',
-              url: it.url + '?x-oss-process=video/snapshot,t_0,w_0,h_0,f_jpg'
+              url: it.url + '?x-oss-process=video/snapshot,t_0,w_0,h_0,f_jpg',
+              video: it.url
             }
           }
         })
@@ -131,7 +154,6 @@ export default {
   },
   methods: {
     closeClick(index) {
-      console.log(index, 'index111111')
       this.$emit('close', index)
     }
   }

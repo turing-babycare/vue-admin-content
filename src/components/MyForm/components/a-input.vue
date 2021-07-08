@@ -24,7 +24,6 @@
 
 <script>
 export default {
-  name: 'Ainput',
   data() {
     return {
       input_value: ''

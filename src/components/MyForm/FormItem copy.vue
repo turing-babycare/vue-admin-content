@@ -133,8 +133,7 @@
     <!--岁月天选择-->
     <Aage
       v-if="item.type === 'age'"
-      :item="item"
-      :item_name="formData[item.name]"
+      :item="item.options"
       @getVal="getVal"
     ></Aage>
     <!--图片上传-->
@@ -259,7 +258,6 @@ export default {
   watch: {
     formData: {
       immediate: true,
-      deep: true,
       handler(val) {
         this.formData = val
       }
@@ -270,20 +268,13 @@ export default {
     showItem(item) {
       // 没有关联项时直接显示
       if (item.show || !item.cascaderItem) return true
-      // 判断对象是否有值
-      if (item.objType && item.cascaderItem) {
-        return this.objShow(item.cascaderItem, item.objType)
-      }
-      // 判断关联项
-      if (item.cascaderType && !item.parentType) {
-        return this.oneShow(
-          item.cascaderValue,
-          item.cascaderItem,
-          item.cascaderType
-        )
-      }
-      if (item.cascaderType && item.parentType) {
-        return this.parentShow(item)
+      // new
+      if (item.array) {
+        item.array.filter((it) => {
+          if (it.length > 0) {
+            this.oneShow(it)
+          }
+        })
       }
     },
     objShow(item, type) {

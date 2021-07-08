@@ -63,12 +63,6 @@ export default Vue.extend({
       },
       formItem: [
         {
-          type: 'input',
-          holder: '请输入用户昵称或备注',
-          label: '用户名称',
-          name: 'name'
-        },
-        {
           type: 'slot',
           slotName: 'tag_id',
           label: '企业标签'
@@ -115,7 +109,7 @@ export default Vue.extend({
           options: []
         },
         {
-          type: 'select',
+          type: 'input',
           holder: '请选择添加人',
           label: '添加人',
           name: 'admin_id',
@@ -123,16 +117,65 @@ export default Vue.extend({
           options: []
         },
         {
-          type: 'rangedate',
+          type: 'input',
           holder: '请选择家庭成员出生日期范围',
           label: '家庭成员出生日期范围',
           disabledDate: () => ({}),
           name: 'birthday',
           format: 'YYYY-MM-DD',
           showTime: false
+        },
+        {
+          label: '患者年龄范围',
+          type: 'age',
+          name: 'age',
+          options: {
+            age_start: [
+              {
+                label: '岁',
+                label_key: 'year',
+                max: 99,
+                min: 0
+              },
+              {
+                label: '个月',
+                label_key: 'month',
+                max: 99,
+                min: 0
+              },
+              {
+                label: '天',
+                label_key: 'day',
+                max: 99,
+                min: 0
+              }
+            ],
+            age_end: [
+              {
+                label: '岁',
+                label_key: 'year',
+                max: 99,
+                min: 0
+              },
+              {
+                label: '个月',
+                label_key: 'month',
+                max: 99,
+                min: 0
+              },
+              {
+                label: '天',
+                label_key: 'day',
+                max: 99,
+                min: 0
+              }
+            ]
+          }
         }
       ],
-      formData: {}
+      formData: {
+        admin_id: '123'
+      } as any
     }
   },
   methods: {
@@ -140,6 +183,7 @@ export default Vue.extend({
       console.log(data, '提交啦')
     },
     onCancel() {
+      this.formData = {}
       console.log('重置啦')
     }
   }
