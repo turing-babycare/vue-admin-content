@@ -7,7 +7,6 @@
       :min="item.min || 0"
       :max="item.max || Infinity"
       :size="item.size"
-      :precision="item.precision"
       @change="change"
     />
     <span style="marginLeft: 20px" v-if="item.tip">{{ item.tip }}</span>

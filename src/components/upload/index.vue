@@ -20,7 +20,7 @@
         />
       </div>
 
-      <div class="upload_btn_box" :style="imgStyle" v-else>
+      <div class="upload_btn_box" :style="imgStyle">
         <div>
           <a-icon :type="loading ? 'loading' : 'plus'" />
         </div>

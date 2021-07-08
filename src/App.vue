@@ -5,21 +5,25 @@
 </template>
 
 <script>
-import Hellow from "../src/components/HelloWorld.vue";
+import Hellow from '../src/components/HelloWorld.vue'
+import lib from 'lib'
 export default {
-  name: "app",
+  name: 'app',
   data() {
-    return {};
+    return {}
   },
   components: {
     Hellow
+  },
+  mounted() {
+    console.log(lib)
   }
-};
+}
 </script>
 
 <style lang="scss">
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
