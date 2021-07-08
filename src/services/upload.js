@@ -101,15 +101,8 @@ export const extname = (filename) => {
   if (!filename || typeof filename !== 'string') {
     return false
   }
-  const a = filename
-    .split('')
-    .reverse()
-    .join('')
-  const b = a
-    .substring(0, a.search(/\./))
-    .split('')
-    .reverse()
-    .join('')
+  const a = filename.split('').reverse().join('')
+  const b = a.substring(0, a.search(/\./)).split('').reverse().join('')
   return b
 }
 /**

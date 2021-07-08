@@ -11,9 +11,9 @@
     :style="item.style || ''"
   >
     <!--文字提示-->
-    <span v-if="item.tooltip" style="margin-right:8px;">
+    <span v-if="item.tooltip" style="margin-right: 8px">
       <Atooltip
-        style="display:inline-block;"
+        style="display: inline-block"
         :tooltip="item.tooltip"
       ></Atooltip>
     </span>
@@ -59,7 +59,7 @@
         :style="item.imgStyle ? item.imgStyle : 'width:104px;height:104px;'"
         :class="item.imgRadius ? 'img_radius' : ''"
       >
-        <img style="object-fit: cover;" :src="formData[item.name]" alt="" />
+        <img style="object-fit: cover" :src="formData[item.name]" alt="" />
       </div>
     </div>
     <!--树选择-->
@@ -109,7 +109,7 @@
     </Acheckbox>
     <!--单选-->
     <Aradio
-      style="display:inline-block;"
+      style="display: inline-block"
       v-if="item.type === 'radio'"
       :item="item"
       :item_name="formData[item.name]"
@@ -127,7 +127,7 @@
     <Arange
       v-if="item.type === 'rangedate'"
       :item="item"
-      :item_name="formData[item.name]"
+      :item_name="formData[item.name] || []"
       @getVal="getVal"
     ></Arange>
     <!--岁月天选择-->
@@ -182,21 +182,21 @@
         :min="item.min || 0"
         :max="item.max || Infinity"
       />
-      <span style="margin-right:4px">
+      <span style="margin-right: 4px">
         {{ item.value[0].unit }}
       </span>
       <span>
         {{ item.value[1].label }}
       </span>
       <a-input-number
-        style="margin-right:4px"
+        style="margin-right: 4px"
         v-model="formData[item.value[1].name]"
         :precision="item.precision || undefined"
         :min="item.min || 0"
         :max="item.max || Infinity"
       />{{ item.value[1].unit }}
     </div>
-    <span v-if="item.unit" style="margin-left:4px;">{{ item.unit }}</span>
+    <span v-if="item.unit" style="margin-left: 4px">{{ item.unit }}</span>
   </a-form-model-item>
 </template>
 <script>
@@ -246,9 +246,9 @@ export default {
   props: {
     item: {
       type: Object,
-      default: () => {}
+      default: () => ({})
     },
-    formData: { type: Object, default: () => {} },
+    formData: { type: Object, default: () => ({}) },
     form: {
       type: Object,
       default: () => {

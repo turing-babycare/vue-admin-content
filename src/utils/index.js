@@ -4,7 +4,7 @@
 import _ from 'lodash'
 
 export function findItemByName(arr, name) {
-  return _.find(arr, function(o) {
+  return _.find(arr, function (o) {
     return o.name === name
   })
 }
@@ -48,19 +48,7 @@ export function ellipsisTxt(value, vlength = 25) {
   }
   return value
 }
-// 获取字符串中的链接
-export const getLinkOnString = (text) => {
-  // eslint-disable-next-line no-useless-escape
-  var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/i
-  text = text.match(exp)
-  return text
-}
-// 判断当前字符串是否包含链接
-export const msgIsLink = (text) => {
-  // eslint-disable-next-line no-useless-escape
-  var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/i
-  return exp.test(text)
-}
+
 // 根据当前咨询相关状态，判断当前咨询状态显示文案
 export function statusLabel(status) {
   let label = ''
@@ -96,7 +84,7 @@ export const deepCopy = (obj) => {
   return JSON.parse(JSON.stringify(obj))
 }
 function isType(type) {
-  return function(obj) {
+  return function (obj) {
     return Object.prototype.toString.call(obj) === '[object ' + type + ']'
   }
 }

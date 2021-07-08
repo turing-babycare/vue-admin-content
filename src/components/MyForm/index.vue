@@ -34,10 +34,10 @@
 
       <!-- 操作按钮 -->
       <a-form-model-item>
-        <a-row :gutter="20" class="clearfix" style="display:flex">
+        <a-row :gutter="20" class="clearfix" style="display: flex">
           <a-col v-for="(it, index) in form.btn" :key="index">
             <Abutton
-              style="display: inline-block;"
+              style="display: inline-block"
               :item="it"
               v-if="it.text"
               @btnClick="btnClick"
@@ -55,7 +55,7 @@ export default {
   components: { FormItem, Abutton },
   name: 'index',
   props: {
-    formData: { type: Object, default: () => {} },
+    formData: { type: Object, default: () => ({}) },
     form: {
       type: Object,
       default: () => {
@@ -133,7 +133,7 @@ export default {
     onSubmit() {
       this.$refs.myForm.validate((valid) => {
         if (valid) {
-          this.$emit('submit', _.cloneDeep(this.itemData))
+          this.$emit('submit', this._.cloneDeep(this.itemData))
         } else {
           return false
         }

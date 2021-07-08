@@ -7,7 +7,7 @@
     <div class="images" v-viewer v-if="images.length > 0">
       <img
         v-for="src in images"
-        class="thumb-container__img "
+        class="thumb-container__img"
         width="100%"
         height="100%"
         :src="src"
@@ -28,7 +28,9 @@
     </div>
     <div v-if="fileType === 'ellipsis'" class="thumb-container__ellipsis">
       <div
-        class="thumb-container__ellipsis__dot thumb-container__ellipsis__dot--first"
+        class="
+          thumb-container__ellipsis__dot thumb-container__ellipsis__dot--first
+        "
       />
       <div class="thumb-container__ellipsis__dot" />
       <div class="thumb-container__ellipsis__dot" />
@@ -63,7 +65,7 @@ export default {
     fileType: {
       type: String,
       required: true,
-      validator: function(value) {
+      validator: function (value) {
         const basicType = ['image', 'video', 'link', 'ellipsis']
         return basicType.indexOf(value) > -1
       }

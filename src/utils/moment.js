@@ -222,12 +222,8 @@ export function getAgeOfMonthStr(birthday, from = new Date()) {
   let ageOfMonth = ''
 
   const span =
-    dayjs(from)
-      .startOf('day')
-      .valueOf() -
-    dayjs(birthday)
-      .startOf('day')
-      .valueOf()
+    dayjs(from).startOf('day').valueOf() -
+    dayjs(birthday).startOf('day').valueOf()
 
   if (span <= 0) {
     ageOfMonth = '1天'

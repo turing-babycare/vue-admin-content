@@ -15,19 +15,19 @@
 <script>
 export default {
   data() {
-    return {};
+    return {}
   },
   props: {
     item: {
       type: Object,
-      default: () => {}
+      default: () => ({})
     }
   },
 
   methods: {
     click(val) {
-      this.$emit("btnClick", val);
+      this.$emit('btnClick', val)
     }
   }
-};
+}
 </script>

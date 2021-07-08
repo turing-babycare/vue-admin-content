@@ -4,9 +4,9 @@ class VideoFile {
   }
   getPromise() {
     const url = this.url
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       var x = document.createElement('VIDEO')
-      x.oncanplaythrough = function() {
+      x.oncanplaythrough = function () {
         resolve({
           duration: this.duration,
           width: this.videoWidth,
@@ -14,7 +14,7 @@ class VideoFile {
           name: this.name
         })
       }
-      x.onerror = function(err) {
+      x.onerror = function (err) {
         reject(err)
       }
       x.setAttribute('src', url)

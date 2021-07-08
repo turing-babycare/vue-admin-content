@@ -28,7 +28,7 @@ export default {
   props: {
     item: {
       type: Object,
-      default: () => {}
+      default: () => ({})
     },
     item_name: {}
   },
@@ -41,7 +41,7 @@ export default {
     }
   },
   methods: {
-    change(val) {
+    change() {
       const params = {
         item_name: this.item.name,
         item_val: this.cascader_val

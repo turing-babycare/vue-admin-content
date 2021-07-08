@@ -1,6 +1,6 @@
 <template>
   <div class="upload-list">
-  <!--
+    <!--
       <thumb-container
       v-for="({ type, url }, index) in uploadList"
       :key="index"
@@ -24,7 +24,7 @@
       @close="handleDeleteFile"
       @thunClick.native.stop="thumbClickFun(type, url)"
     ></thumb-container>
-  <div>
+
     <uploader
       v-if="curMax > 0 && !disabled"
       class="upload-list__item upload-list__item--last"
@@ -114,7 +114,7 @@ export default {
       }
     },
     value: {
-      handler: function(value) {
+      handler: function (value) {
         if (isArray(value)) this.curUploadList = deepCopy(value)
       },
       immediate: true

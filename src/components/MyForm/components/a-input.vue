@@ -24,7 +24,7 @@
 
 <script>
 export default {
-  name: 'input',
+  name: 'Ainput',
   data() {
     return {
       input_value: ''
@@ -33,7 +33,7 @@ export default {
   props: {
     item: {
       type: Object,
-      default: () => {}
+      default: () => ({})
     },
     item_name: {
       type: String,

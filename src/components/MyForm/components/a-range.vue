@@ -15,33 +15,33 @@ export default {
   data() {
     return {
       range_val: []
-    };
+    }
   },
   props: {
     item: {
       type: Object,
-      default: () => {}
+      default: () => ({})
     },
     item_name: {
-      default: () => {}
+      default: () => ({})
     }
   },
   watch: {
     item_name: {
       immediate: true,
       handler(val) {
-        this.range_val = val;
+        this.range_val = val || []
       }
     }
   },
   methods: {
-    change(val) {
+    change() {
       const params = {
         item_name: this.item.name,
         item_val: this.range_val
-      };
-      this.$emit("getVal", params);
+      }
+      this.$emit('getVal', params)
     }
   }
-};
+}
 </script>

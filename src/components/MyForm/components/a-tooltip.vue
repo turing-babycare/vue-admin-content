@@ -4,7 +4,7 @@
       <template slot="title">
         <span>{{ tooltip }}</span>
       </template>
-      <a-icon type="info-circle" style="color:#999" />
+      <a-icon type="info-circle" style="color: #999" />
     </a-tooltip>
   </div>
 </template>

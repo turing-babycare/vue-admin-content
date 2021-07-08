@@ -1,7 +1,7 @@
 <template>
   <div>
-    <a-row style="width:900px" :gutter="20">
-      <a-col :span="10" style="display: flex;justify-content: space-between;">
+    <a-row style="width: 900px" :gutter="20">
+      <a-col :span="10" style="display: flex; justify-content: space-between">
         <div v-for="(item, index) in item.age_start" :key="index">
           <a-input-number
             @change="ageChange($event, index, 'start')"
@@ -16,7 +16,7 @@
       <a-col :span="1">
         <span>~</span>
       </a-col>
-      <a-col :span="10" style="display: flex;justify-content: space-between;">
+      <a-col :span="10" style="display: flex; justify-content: space-between">
         <div
           v-for="(item, index) in item.age_end"
           :key="index"
@@ -45,7 +45,7 @@ export default {
   props: {
     item: {
       type: Object,
-      default: () => {}
+      default: () => ({})
     },
     item_name: {}
   },

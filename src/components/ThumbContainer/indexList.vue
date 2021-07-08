@@ -29,7 +29,9 @@
       </div>
       <div v-if="item.type === 'ellipsis'" class="thumb-container__ellipsis">
         <div
-          class="thumb-container__ellipsis__dot thumb-container__ellipsis__dot--first"
+          class="
+            thumb-container__ellipsis__dot thumb-container__ellipsis__dot--first
+          "
         />
         <div class="thumb-container__ellipsis__dot" />
         <div class="thumb-container__ellipsis__dot" />

@@ -16,11 +16,11 @@
           :class="imgRadius ? 'img_radius' : ''"
           v-if="fileList.length > 0"
           :src="fileList[0].url"
-          style="object-fit: cover;"
+          style="object-fit: cover"
         />
       </div>
 
-      <div class="upload_btn_box" :style="imgStyle" v-else>
+      <div class="upload_btn_box" :style="imgStyle">
         <div>
           <a-icon :type="loading ? 'loading' : 'plus'" />
         </div>
@@ -41,11 +41,11 @@
   </div>
 </template>
 <script>
-function getBase64(img, callback) {
-  const reader = new FileReader()
-  reader.addEventListener('load', () => callback(reader.result))
-  reader.readAsDataURL(img)
-}
+// function getBase64(img, callback) {
+//   const reader = new FileReader()
+//   reader.addEventListener('load', () => callback(reader.result))
+//   reader.readAsDataURL(img)
+// }
 import 'viewerjs/dist/viewer.css'
 import { directive as viewer } from 'v-viewer'
 export default {
@@ -126,7 +126,6 @@ export default {
       previewVisible: false
     }
   },
-  created() {},
   watch: {
     defaultFileList(val) {
       if (val && val.length) {
@@ -149,14 +148,13 @@ export default {
       }
       return isJpgOrPng && isLt2M
     },
-    handleChange(info) {},
     async handleUpload(file) {
       if (this.loading) {
         return
       }
       this.loading = true
       this.fileList = []
-      const data = await this.uploadApi(file, (progress) => {}, this.baseUrl)
+      const data = await this.uploadApi(file, () => ({}), this.baseUrl)
       this.fileList.push({
         uid: file.file.name + this._.random(0, 100),
         name: file.file.name,

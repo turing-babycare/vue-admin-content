@@ -1,48 +1,46 @@
 <template>
-  <div>
-    <Hellow></Hellow>
-  </div>
+  <a-config-provider>
+    <div id="app">
+      <router-view />
+    </div>
+  </a-config-provider>
 </template>
+<script lang="ts">
+import Vue from 'vue'
+// import lib, { libExport } from 'lib'
+// import locale from 'ant-design-vue/lib/locale-provider/zh_CN'
 
-<script>
-import Hellow from "../src/components/HelloWorld.vue";
-export default {
-  name: "app",
+export default Vue.extend({
+  name: 'APP',
   data() {
-    return {};
+    return {
+      // locale
+    }
   },
-  components: {
-    Hellow
+  mounted() {
+    // console.log(lib, libExport)
   }
-};
+})
 </script>
-
 <style lang="scss">
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 
-h1,
-h2 {
-  font-weight: normal;
-}
+#nav {
+  padding: 30px;
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
+  a {
+    font-weight: bold;
+    color: #2c3e50;
 
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
 }
 </style>

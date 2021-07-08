@@ -7,10 +7,9 @@
       :min="item.min || 0"
       :max="item.max || Infinity"
       :size="item.size"
-      :precision="item.precision"
       @change="change"
     />
-    <span style="marginLeft: 20px" v-if="item.tip">{{ item.tip }}</span>
+    <span style="marginleft: 20px" v-if="item.tip">{{ item.tip }}</span>
   </div>
 </template>
 
@@ -24,7 +23,7 @@ export default {
   props: {
     item: {
       type: Object,
-      default: () => {}
+      default: () => ({})
     },
     item_name: {
       type: Number,
@@ -40,7 +39,7 @@ export default {
     }
   },
   methods: {
-    change(val) {
+    change() {
       const params = {
         item_name: this.item.name,
         item_val: this.input_val
