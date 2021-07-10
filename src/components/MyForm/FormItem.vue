@@ -343,7 +343,6 @@ export default {
       this.formData[name] = val.img
     },
     uploadListChange(val, name) {
-      console.log(val, 'val')
       if (Array.isArray(val)) {
         this.formData[name] = val
       } else {

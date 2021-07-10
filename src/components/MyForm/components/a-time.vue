@@ -9,10 +9,9 @@
     </a-time-picker>
   </div>
 </template>
-<script lang="ts">
-import Vue from 'vue'
-import moment from 'moment'
-export default Vue.extend({
+<script>
+import dayjs from 'dayjs'
+export default {
   data() {
     return {
       time_val: ''
@@ -37,10 +36,10 @@ export default Vue.extend({
     change() {
       const params = {
         item_name: this.item.name,
-        item_val: this.time_val
+        item_val: dayjs(this.time_val).format(this.item.format)
       }
       this.$emit('getVal', params)
     }
   }
-})
+}
 </script>

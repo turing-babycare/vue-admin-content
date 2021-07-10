@@ -8,6 +8,7 @@
             id="inputNumber"
             :max="item.max"
             :min="item.min"
+            :value="age.age_start[item.label_key]"
           />
           {{ item.label }}
         </div>
@@ -22,6 +23,7 @@
             id="inputNumber"
             :min="item.min"
             :max="item.max"
+            :value="age.age_end[item.label_key]"
           />
           {{ item.label }}
         </div>
@@ -64,28 +66,24 @@ export default {
       }
     },
     item_name: {
+      immediate: true,
       handler(val) {
-        console.log(val, 'val')
-        this.$next
-        if (!val) {
-          this.$nextTick(() => {
-            // this.age = {
-            //   age_start: {
-            //     year: 0,
-            //     month: 0,
-            //     day: 0
-            //   },
-            //   age_end: {
-            //     year: 0,
-            //     month: 0,
-            //     day: 0
-            //   }
-            // }
-            console.log(Object.valus(this.age))
-            this.$set(this.age, Object.valus(this.age), 0)
-          })
+        if (val) {
+          this.age = val
+        } else {
+          this.age = {
+            age_start: {
+              year: 0,
+              month: 0,
+              day: 0
+            },
+            age_end: {
+              year: 0,
+              month: 0,
+              day: 0
+            }
+          }
         }
-        console.log(this.age, 'end')
       }
     }
   },

@@ -1,95 +1,70 @@
 <template>
-  <div class="images" v-viewer="{ movable: false }">
-    <div
-      v-for="(item, index) in uploadlist"
-      :key="index"
-      @click="$emit('thunClick', item.type, item.url)"
-      :class="{ 'thumb-container-link': item.type === 'link' }"
-      class="thumb-container"
-      :style="containerStyle"
-    >
-      <div style="width: 100%; height: 100%">
-        <video
-          v-if="item.type === 'video'"
+  <div class="box">
+    <!--image-->
+    <div class="images">
+      <viewer
+        :images="imageList"
+        @inited="inited"
+        class="viewer image-box"
+        ref="viewer"
+      >
+        <template>
+          <div
+            v-for="item in imageList"
+            :key="item + 'image'"
+            class="thumb-container"
+          >
+            <img
+              class="el-icon-video-play"
+              :src="item"
+              :style="containerStyle"
+            />
+            <div
+              class="thumb-container__close-btn"
+              @click.stop="closeClick(item, 'image')"
+            >
+              <a-icon type="close" />
+            </div>
+          </div>
+        </template>
+      </viewer>
+    </div>
+    <!--video -->
+    <div class="video-center">
+      <div
+        v-for="(item, index) in videoList"
+        :key="index + 'vedio'"
+        :style="containerStyle"
+        class="thumb-container video-box"
+      >
+        <img
           width="100%"
           height="100%"
           controls="controls"
-          :src="item.video"
-          class="el-icon-video-play"
-        ></video>
-        <img
-          class="thumb-container__img"
-          width="100%"
-          height="100%"
           :src="item.url"
-          :data-src="item.url"
-          alt="加载失败"
-          v-else
+          class="el-icon-video-play"
         />
-        <div v-if="item.type === 'ellipsis'" class="thumb-container__ellipsis">
-          <div
-            class="
-              thumb-container__ellipsis__dot
-              thumb-container__ellipsis__dot--first
-            "
-          />
-          <div class="thumb-container__ellipsis__dot" />
-          <div class="thumb-container__ellipsis__dot" />
-          <div class="thumb-container__ellipsis__dot" />
-          <div class="thumb-container__ellipsis__dot" />
-        </div>
-      </div>
-
-      <!--
-      <div
-        v-if="maskIsShow"
-        class="mask"
-        :class="{ 'mask-video': item.type === 'video' }"
-      >
-        <div v-if="item.type === 'video'" class="el-icon-video-play">
-          <video
-            controls="controls"
-            src="https://pic1.baobaohehu.com/fhs/admin/521202107071444147501625640266376"
-          ></video>
-        </div>
-        <div v-else class="icon-link">
-          <div class="iconfont icon-icon-pic_lianjiex" />
-        </div>
-      </div>
-      <div v-if="item.type === 'ellipsis'" class="thumb-container__ellipsis">
         <div
-          class="
-            thumb-container__ellipsis__dot thumb-container__ellipsis__dot--first
-          "
-        />
-        <div class="thumb-container__ellipsis__dot" />
-        <div class="thumb-container__ellipsis__dot" />
-        <div class="thumb-container__ellipsis__dot" />
-        <div class="thumb-container__ellipsis__dot" />
-      </div>
-      -->
-      <!--
-       icon操作
-      -->
-      <div
-        v-if="showCloseIcon"
-        class="thumb-container__close-btn"
-        @click.stop="closeClick(index)"
-      >
-        <a-icon type="close" />
+          class="thumb-container__close-btn"
+          @click.stop="closeClick(item, 'video')"
+        >
+          <a-icon type="close" />
+        </div>
+
+        <div @click="openVideo(item)" class="video-circle">
+          <a-icon type="play-circle" />
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
 import 'viewerjs/dist/viewer.css'
-import { directive as viewer, api as viewerApi } from 'v-viewer'
+import { component as Viewer } from 'v-viewer'
 export default {
   name: 'ThumbContainer',
-  directives: {
-    viewer: viewer({
-      debug: true
-    })
+  components: {
+    Viewer
   },
   data() {
     return {
@@ -114,6 +89,7 @@ export default {
       default: '80px'
     }
   },
+
   watch: {
     uploadList: {
       immediate: true,
@@ -142,6 +118,21 @@ export default {
     }
   },
   computed: {
+    imageList() {
+      return this.uploadList
+        .filter((it) => it.type === 'image')
+        .map((it) => it.url)
+    },
+    videoList() {
+      return this.uploadList
+        .filter((it) => it.type === 'video')
+        .map((it) => {
+          return {
+            url: it.url + '?x-oss-process=video/snapshot,t_0,w_0,h_0,f_jpg',
+            video: it.url
+          }
+        })
+    },
     containerStyle() {
       return {
         width: parseFloat(this.width) + 'px',
@@ -153,13 +144,29 @@ export default {
     }
   },
   methods: {
-    closeClick(index) {
-      this.$emit('close', index)
+    closeClick(item, type) {
+      if (type === 'image') {
+        return this.$emit('close', item)
+      }
+      if (type === 'video') {
+        return this.$emit('close', item.video)
+      }
+    },
+    openVideo(item) {
+      window.open(item.video)
+    },
+    inited(viewer) {
+      this.$viewer = viewer
     }
   }
 }
 </script>
 <style lang="scss" scope>
+.box,
+.image-box {
+  display: flex;
+  flex-wrap: wrap;
+}
 .thumb-container {
   position: relative;
   margin-right: 13px;
@@ -248,15 +255,31 @@ export default {
   justify-content: center;
   position: absolute;
   top: 0px;
-  display: none;
+  // display: none;
 }
-.thumb-container__close-btn {
-  display: none;
-}
-.thumb-container:hover .thumb-container__close-btn {
-  display: block;
+.video-center,
+.video-box {
+  position: relative;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+}
+.video-circle {
+  display: none;
+  position: absolute;
+  line-height: 0;
+  background: #0085ff;
+  border-radius: 50%;
+  z-index: 999;
+  cursor: pointer;
+  i {
+    font-size: 24px;
+    color: #fff;
+    transform: scale(0.7);
+  }
+}
+.video-box:hover .video-circle {
+  display: block;
 }
 </style>

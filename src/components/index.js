@@ -13,6 +13,8 @@ import Textarea from './MyForm/components/a-textarea.vue'
 import Time from './MyForm/components/a-time.vue'
 import Tooltip from './MyForm/components/a-tooltip.vue'
 import TreeSelect from './MyForm/components/a-tree-select.vue'
+import Age from './MyForm/components/a-age.vue'
+import UploadList from './UploaderList/index.vue'
 export default MyForm
 export {
   Auto,
@@ -27,5 +29,7 @@ export {
   Textarea,
   Time,
   Tooltip,
-  TreeSelect
+  TreeSelect,
+  Age,
+  UploadList
 }

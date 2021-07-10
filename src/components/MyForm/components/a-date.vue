@@ -14,10 +14,9 @@
     />
   </div>
 </template>
-<script lang="ts">
-import Vue from 'vue'
-import moment from 'moment'
-export default Vue.extend({
+<script>
+import dayjs from 'dayjs'
+export default {
   data() {
     return {
       date_val: ''
@@ -42,10 +41,11 @@ export default Vue.extend({
     change() {
       const params = {
         item_name: this.item.name,
-        item_val: moment(this.date_val).format(this.item.format)
+        item_val: dayjs(this.date_val).format(this.item.format)
       }
+      console.log(params, 'params')
       this.$emit('getVal', params)
     }
   }
-})
+}
 </script>

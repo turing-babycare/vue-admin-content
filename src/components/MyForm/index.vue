@@ -88,10 +88,9 @@ export default {
     formData: {
       immediate: true,
       handler(val) {
-        console.log(val)
-        // this.itemData = val
-        // if (Object.keys(val).length) {
-        // }
+        if (Object.keys(val).length) {
+          this.itemData = val
+        }
       }
     },
     formItem: {
@@ -135,6 +134,7 @@ export default {
     },
     onSubmit() {
       this.$refs.myForm.validate((valid) => {
+        console.log(this.rules, this.itemData)
         if (valid) {
           this.$emit('submit', this._.cloneDeep(this.itemData))
         } else {

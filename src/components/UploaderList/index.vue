@@ -1,20 +1,5 @@
 <template>
   <div class="upload-list">
-    <!--
-      <thumb-container
-      v-for="({ type, url }, index) in uploadList"
-      :key="index"
-      :file-type="type ? type : 'image'"
-      :thumb-url="getThumbUrl(url, type)"
-      :width="width"
-      :height="height"
-      class="upload-list__item"
-      :show-close-icon="true"
-      inline
-      @close="handleDeleteFile(index)"
-      @click.native.stop="thumbClickFun(type, url)"
-    ></thumb-container>
-  -->
     <thumb-container
       :uploadList="uploadList"
       :width="width"
@@ -22,7 +7,6 @@
       :show-close-icon="true"
       inline
       @close="handleDeleteFile"
-      @thunClick.native.stop="thumbClickFun(type, url)"
     ></thumb-container>
 
     <uploader
@@ -114,7 +98,7 @@ export default {
       }
     },
     value: {
-      handler: function(value) {
+      handler: function (value) {
         if (isArray(value)) this.curUploadList = deepCopy(value)
       },
       immediate: true
@@ -129,33 +113,33 @@ export default {
           return url + '?x-oss-process=video/snapshot,t_0,w_0,h_0,f_jpg'
         default:
           return ''
-        // throw new Error('type !== "image" || "video"')
       }
     },
     onImageUpload(res) {
-      this.$emit('change', {
+      let result = {
         item_name: this.item_name,
         url: res.url,
-        type:
-          res.file && res.file.type && res.file.type.indexOf('video') > -1
-            ? 'video'
-            : 'image'
-      })
+        type: 'image'
+      }
+      if (res.file && res.file.type && res.file.type.indexOf('video') > -1) {
+        result.type = 'video'
+        result.video =
+          res.url + '?x-oss-process=video/snapshot,t_0,w_0,h_0,f_jpg'
+        this.$emit('change', result)
+      } else {
+        this.$emit('change', result)
+      }
     },
     overUploadMax() {
       this.$message.error('超出一次能上传的最大个数，超出的文件不上传')
     },
     handleDeleteFile(val) {
       const curUploadList = deepCopy(this.uploadList)
-      curUploadList.splice(val * 1, 1)
+      const index = this._.findIndex(curUploadList, function (e) {
+        return e.url === val
+      })
+      curUploadList.splice(index * 1, 1)
       this.$emit('change', curUploadList)
-    },
-    thumbClickFun(type, url) {
-      this.monitorInfo = {
-        type,
-        meta: { url }
-      }
-      // this.$refs.monitor.show()
     }
   }
 }
