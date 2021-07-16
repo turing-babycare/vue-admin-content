@@ -6,6 +6,7 @@
       :disabled="item.disable"
       :disabled-date="item.disabledDate"
       :disabled-time="item.disabledRangeTime"
+      :default-value="item.defaultValue"
       :format="item.format ? item.format : 'YYYY-MM-DD HH:mm'"
       @change="change"
     />
@@ -38,13 +39,22 @@ export default {
   },
   methods: {
     change() {
-      const result = []
-      result[0] = dayjs(this.range_val[0]).format(this.item.format)
-      result[1] = dayjs(this.range_val[1]).format(this.item.format)
-      const params = {
-        item_name: this.item.name,
-        item_val: result
+      let params = {}
+      if (this.range_val.length === 0) {
+        params = {
+          item_name: this.item.name,
+          item_val: undefined
+        }
+      } else {
+        const result = []
+        result[0] = dayjs(this.range_val[0]).format(this.item.format)
+        result[1] = dayjs(this.range_val[1]).format(this.item.format)
+        params = {
+          item_name: this.item.name,
+          item_val: result
+        }
       }
+
       this.$emit('getVal', params)
     }
   }

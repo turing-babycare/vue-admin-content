@@ -2,14 +2,14 @@
   <div>
     <a-date-picker
       v-model="date_val"
-      :show-time="item.showTime"
+      :show-time="item.showTime || false"
       :disabled="item.disabled"
       :disabled-date="item.disabledDate"
       :disabled-time="item.disabledRangeTime"
       type="date"
       :placeholder="item.holder || '请选择日期'"
       :style="item.style || 'width: 90%;'"
-      :format="item.format ? item.format : 'YYYY-MM-DD'"
+      :format="itemFormat"
       @change="change"
     />
   </div>
@@ -29,6 +29,13 @@ export default {
     },
     item_name: {}
   },
+  computed: {
+    itemFormat() {
+      return this.item.showTime
+        ? 'YYYY-MM-DD HH:mm:ss'
+        : this.item.format || 'YYYY-MM-DD'
+    }
+  },
   watch: {
     item_name: {
       immediate: true,
@@ -39,11 +46,19 @@ export default {
   },
   methods: {
     change() {
-      const params = {
-        item_name: this.item.name,
-        item_val: dayjs(this.date_val).format(this.item.format)
+      let params = {}
+      if (!this.date_val) {
+        params = {
+          item_name: this.item.name,
+          item_val: undefined
+        }
+      } else {
+        params = {
+          item_name: this.item.name,
+          item_val: dayjs(this.date_val).format(this.itemFormat)
+        }
       }
-      console.log(params, 'params')
+
       this.$emit('getVal', params)
     }
   }

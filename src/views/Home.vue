@@ -68,6 +68,14 @@ export default Vue.extend({
           labelCol: { span: 24 },
           wrapperCol: { span: 24 },
           max: 9
+        },
+        {
+          type: 'date',
+          holder: '请选择任务截止日期',
+          label: '任务截止日期',
+          name: 'date',
+          format: 'YYYY-MM-DD',
+          showTime: false
         }
       ],
       formData: {
