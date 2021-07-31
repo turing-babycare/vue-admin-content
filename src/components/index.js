@@ -15,6 +15,7 @@ import Tooltip from './MyForm/components/a-tooltip.vue'
 import TreeSelect from './MyForm/components/a-tree-select.vue'
 import Age from './MyForm/components/a-age.vue'
 import UploadList from './UploaderList/index.vue'
+import ComplexFilter from './ComplexFilter/index'
 export default MyForm
 export {
   Auto,
@@ -31,5 +32,6 @@ export {
   Tooltip,
   TreeSelect,
   Age,
-  UploadList
+  UploadList,
+  ComplexFilter
 }

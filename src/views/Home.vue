@@ -9,18 +9,20 @@
       @cancel="onCancel"
     >
     </Myform>
+    <ComplexFilter></ComplexFilter>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 // import Myform from '../../dist/content.umd'
-import Myform from '@/components/index'
-
+import Myform, { ComplexFilter } from '@/components/index'
+import moment from 'moment'
 export default Vue.extend({
   name: 'hellow',
   components: {
-    Myform
+    Myform,
+    ComplexFilter
   },
   data() {
     return {
@@ -76,6 +78,63 @@ export default Vue.extend({
           name: 'date',
           format: 'YYYY-MM-DD',
           showTime: false
+        },
+        {
+          type: 'rangedate',
+          holder: '患者出生日期范围',
+          label: '患者出生日期范围',
+          name: 'birthday',
+          format: 'YYYY-MM-DD',
+          defaultValue: [
+            moment(new Date())
+              .subtract(2, 'months')
+              .startOf('month')
+              .format('YYYY-MM-DD'),
+            moment().endOf('month').format('YYYY-MM-DD')
+          ],
+          showTime: false
+        },
+        {
+          type: 'select',
+          holder: '请选择负责人',
+          label: '负责人',
+          name: 'leader',
+          showSearch: true,
+          options: [
+            {
+              value: 1,
+              label: '名字'
+            },
+            {
+              value: 2,
+              label: '名字'
+            },
+            {
+              value: 3,
+              label: '名字'
+            }
+          ]
+        },
+        {
+          type: 'select',
+          holder: '请选择负责人',
+          label: '负责人',
+          name: 'leader',
+          showSearch: true,
+          options: [
+            {
+              value: 1,
+              label: '名字'
+            },
+            {
+              value: 2,
+              label: '名字'
+            },
+            {
+              value: 3,
+              label: '名字'
+            }
+          ]
         }
       ],
       formData: {
