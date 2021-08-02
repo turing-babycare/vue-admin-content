@@ -1,5 +1,5 @@
 <template>
-  <div id="content">
+  <div class="complex-box">
     <div class="layout">
       <a-table
         style="background: #fff"
@@ -109,6 +109,7 @@
         :maskClosable="false"
         @ok="onConfirm"
         @cancel="onCancel"
+        class="complex-model"
       >
         <div class="row">
           <div class="label">筛选条件：</div>
@@ -262,6 +263,7 @@ import Tag from './components/Tag.vue'
 import { getAgeOfMonthStr, formatTime } from '@/utils/moment'
 import Ages from './components/Age.vue'
 
+import _ from 'lodash'
 export default {
   components: { Tag, Ages },
   props: {
@@ -370,7 +372,7 @@ export default {
             key,
             value: v[key]
           }))
-          this.queryArray = this._.cloneDeep(array)
+          this.queryArray = _.cloneDeep(array)
           if (v.age) {
             this.age_birthday_end = this.getDate(v.age.age_start, 'subtract')
             this.age_birthday_start = this.getDate(v.age.age_end, 'subtract')
@@ -521,11 +523,11 @@ export default {
         )
       }
       if (this.currentEditIndex !== undefined) {
-        const queryArray = this._.cloneDeep(this.queryArray)
-        queryArray[this.currentEditIndex] = this._.cloneDeep(this.modalData)
+        const queryArray = _.cloneDeep(this.queryArray)
+        queryArray[this.currentEditIndex] = _.cloneDeep(this.modalData)
         this.queryArray = queryArray
       } else {
-        this.queryArray.push(this._.cloneDeep(this.modalData))
+        this.queryArray.push(_.cloneDeep(this.modalData))
       }
       this.modalData = {
         type: undefined,
@@ -537,7 +539,7 @@ export default {
         this.currentEditIndex = undefined
         this.$emit(
           'onFilterChange',
-          this._.cloneDeep(this.getCondition(this.queryArray))
+          _.cloneDeep(this.getCondition(this.queryArray))
         )
       })
     },
@@ -556,7 +558,7 @@ export default {
         key: data.key,
         label: this.originalFilterData.find((i) => i.value === data.key).label
       }
-      this.modalData = this._.cloneDeep(data)
+      this.modalData = _.cloneDeep(data)
       if (result.type === 'cascader') {
         this.cascaderDefault = data.value
       }
@@ -566,13 +568,13 @@ export default {
       if (this.queryArray.length === 1) {
         return this.$message.error('至少需要保留一个筛选条件')
       }
-      const array = this._.cloneDeep(this.queryArray)
+      const array = _.cloneDeep(this.queryArray)
       array.splice(index, 1)
       this.queryArray = array
       this.$nextTick(() => {
         this.$emit(
           'onFilterChange',
-          this._.cloneDeep(this.getCondition(this.queryArray))
+          _.cloneDeep(this.getCondition(this.queryArray))
         )
       })
     },
@@ -611,30 +613,32 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#content {
+.complex-box {
   .layout {
     width: 800px;
+    .age_box {
+      margin-top: 10px;
+      margin-right: 34px;
+      text-align: right;
+    }
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    .number {
+      color: #1785ff;
+    }
+    .show {
+      opacity: 1;
+    }
+    .hide {
+      opacity: 0;
+    }
   }
-  .age_box {
-    margin-top: 10px;
-    margin-right: 34px;
-    text-align: right;
-  }
-  .footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
-  .number {
-    color: #1785ff;
-  }
-  .show {
-    opacity: 1;
-  }
-  .hide {
-    opacity: 0;
-  }
+}
+.complex-model {
   .row {
     display: flex;
     align-items: center;
