@@ -134,7 +134,6 @@ export default {
     },
     onSubmit() {
       this.$refs.myForm.validate((valid) => {
-        console.log(this.rules, this.itemData)
         if (valid) {
           this.$emit('submit', this._.cloneDeep(this.itemData))
         } else {
@@ -148,7 +147,6 @@ export default {
       this.formItem.forEach((i) => {
         this.$set(this.itemData, i.name, undefined)
       })
-      console.log(this.formItem, 'formItem')
     }
   }
 }

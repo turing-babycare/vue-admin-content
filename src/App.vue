@@ -16,9 +16,6 @@ export default Vue.extend({
     return {
       // locale
     }
-  },
-  mounted() {
-    // console.log(lib, libExport)
   }
 })
 </script>

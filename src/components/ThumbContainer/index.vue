@@ -66,7 +66,6 @@ export default {
       type: String,
       required: true,
       validator: function (value) {
-        console.log(value, 'value')
         const basicType = ['image', 'video', 'link', 'ellipsis']
         return basicType.indexOf(value) > -1
       }

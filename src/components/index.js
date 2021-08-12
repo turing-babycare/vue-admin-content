@@ -1,5 +1,6 @@
 // sumFunction 插件对应组件的名字
 import MyForm from './MyForm/index.vue'
+import MyTable from './MyTable/index.vue'
 import Auto from './MyForm/components/a-auto.vue'
 import Button from './MyForm/components/a-button.vue'
 import Cascader from './MyForm/components/a-cascader.vue'
@@ -17,6 +18,7 @@ import Age from './MyForm/components/a-age.vue'
 import UploadList from './UploaderList/index.vue'
 import ComplexFilter from './ComplexFilter/index'
 export default MyForm
+
 export {
   Auto,
   Button,
@@ -33,5 +35,6 @@ export {
   TreeSelect,
   Age,
   UploadList,
-  ComplexFilter
+  ComplexFilter,
+  MyTable
 }
