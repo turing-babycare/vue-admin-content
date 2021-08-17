@@ -18,7 +18,7 @@
       >
       </a-tree-select>
     </div>
-    <div class="row">
+    <div class="row" v-if="item.notIncludeShow === false ? false : true">
       <div class="label">不包含：</div>
       <a-tree-select
         v-model="not_include_tag"
