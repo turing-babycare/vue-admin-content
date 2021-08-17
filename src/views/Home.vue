@@ -283,7 +283,13 @@ export default Vue.extend({
       rowSelectionList: [],
       // complex
       isEdit: false,
-      rel_user_cond: {},
+      rel_user_cond: {
+        tag: {
+          tag_contain: [
+            { label: '合并标签1', value: 'et9UksCAAA2V0o8OqQ0jhrTACOR0kevA11' }
+          ]
+        }
+      },
       conditionData: [
         {
           label: '渠道',
@@ -330,12 +336,12 @@ export default Vue.extend({
               {
                 create_time: 1627634256,
                 group: 1,
-                id: 'et9UksCAAAeGrIIitsXe3zeBI1tTTdTQ',
+                id: 'et9UksCAAAeGrIIitsXe3zeBI1tTTdTQ2',
                 name: '西京医院2',
                 tag: [
                   {
                     create_time: 1627634256,
-                    id: 'et9UksCAAAjeschph399mMIHWqwE5GmQ',
+                    id: 'et9UksCAAAjeschph399mMIHWqwE5GmQ2',
                     name: '西京体检2'
                   }
                 ]

@@ -22,7 +22,13 @@
                   : '无'
               }}
             </div>
-            <div v-if="text.value && text.value.tag_no_contain.length > 0">
+            <div
+              v-if="
+                text.value &&
+                text.value.tag_no_contain !== undefined &&
+                text.value.tag_no_contain.length > 0
+              "
+            >
               不包含：{{
                 text.value && text.value.tag_no_contain
                   ? text.value.tag_no_contain.map((i) => i.label).join(',')
