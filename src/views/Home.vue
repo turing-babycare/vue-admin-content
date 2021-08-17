@@ -11,7 +11,12 @@
     >
     </Myform>
     <!--搜索-->
-    <ComplexFilter></ComplexFilter>
+    <ComplexFilter
+      :data="rel_user_cond"
+      :isEdit="isEdit"
+      :taskShow="false"
+      :originalFilterData="conditionData"
+    ></ComplexFilter>
     <a-row>
       <a-col :span="4">
         <a-button type="primary" @click="rowSelectionAll"> 全选 </a-button>
@@ -275,7 +280,71 @@ export default Vue.extend({
         currentPage: 1,
         pageSize: 10
       },
-      rowSelectionList: []
+      rowSelectionList: [],
+      // complex
+      isEdit: false,
+      rel_user_cond: {},
+      conditionData: [
+        {
+          label: '渠道',
+          value: 'channel',
+          type: 'treeSelect',
+          async getOptions() {
+            const res = [
+              {
+                value: 1,
+                label: 1
+              }
+            ]
+            return res
+          }
+        },
+
+        {
+          label: '企业微信标签',
+          value: 'tag',
+          valueKey: ['tag_contain', 'tag_no_contain'],
+          notIncludeShow: false,
+          replaceFields: {
+            title: 'name',
+            key: 'id',
+            value: 'id',
+            children: 'tag'
+          },
+          type: 'tag',
+          async getOptions() {
+            const res = [
+              {
+                create_time: 1627634256,
+                group: 1,
+                id: 'et9UksCAAAeGrIIitsXe3zeBI1tTTdTQ',
+                name: '西京医院',
+                tag: [
+                  {
+                    create_time: 1627634256,
+                    id: 'et9UksCAAAjeschph399mMIHWqwE5GmQ',
+                    name: '西京体检'
+                  }
+                ]
+              },
+              {
+                create_time: 1627634256,
+                group: 1,
+                id: 'et9UksCAAAeGrIIitsXe3zeBI1tTTdTQ',
+                name: '西京医院2',
+                tag: [
+                  {
+                    create_time: 1627634256,
+                    id: 'et9UksCAAAjeschph399mMIHWqwE5GmQ',
+                    name: '西京体检2'
+                  }
+                ]
+              }
+            ]
+            return res
+          }
+        }
+      ]
     }
   },
   methods: {
