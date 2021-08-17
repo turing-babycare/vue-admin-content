@@ -22,7 +22,9 @@
                   : '无'
               }}
             </div>
-            <div>
+            <div
+              v-if="currentSelectItem.notIncludeShow === false ? false : true"
+            >
               不包含：{{
                 text.value && text.value.tag_no_contain
                   ? text.value.tag_no_contain.map((i) => i.label).join(',')
