@@ -73,7 +73,8 @@ export default {
   data() {
     return {
       monitorInfo: {},
-      curUploadList: []
+      curUploadList: [],
+      curMax: 0
     }
   },
   computed: {
@@ -82,26 +83,26 @@ export default {
         width: parseFloat(this.width) + 'px',
         height: parseFloat(this.height) + 'px'
       }
-    },
-    curMax() {
-      return this.max >= this.curUploadList.length
-        ? this.max - this.curUploadList.length
-        : 0
     }
   },
   watch: {
     uploadList: {
+      immediate: true,
+      handler(value) {
+        if (value && isArray(value)) this.curUploadList = _.cloneDeep(value)
+        this.curMax =
+          this.max >= this.curUploadList.length
+            ? this.max - this.curUploadList.length
+            : 0
+      },
+      deep: true
+    },
+    value: {
       deep: true,
       immediate: true,
       handler(value) {
         if (value && isArray(value)) this.curUploadList = _.cloneDeep(value)
       }
-    },
-    value: {
-      handler: function (value) {
-        if (isArray(value)) this.curUploadList = deepCopy(value)
-      },
-      immediate: true
     }
   },
   methods: {
