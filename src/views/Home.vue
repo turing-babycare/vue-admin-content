@@ -36,9 +36,9 @@
       @sizeChange="sizeChange"
       @detail="detailHandle"
       @rowSelectionChange="rowSelectionChange"
+      @onSelectAll="rowSelectionAll"
       :multiple="true"
       :page="page"
-      :columnTitle="' '"
     >
     </MyTable>
   </div>
@@ -378,7 +378,6 @@ export default Vue.extend({
     },
     // 全选
     rowSelectionAll() {
-      // console.log(this.data.map((i) => !i.checkDisable))
       const index = this.data
         .filter((i) => !i.checkDisable)
         .map((it) => {

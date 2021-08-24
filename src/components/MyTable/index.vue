@@ -16,7 +16,8 @@
               selectedRowKeys: selectedRowKeys,
               onChange: onSelectChange,
               getCheckboxProps: getCheckboxProps,
-              columnTitle: columnTitle
+              columnTitle: columnTitle,
+              onSelectAll: onSelectAll
             }
           : null
       "
@@ -218,7 +219,7 @@ export default {
     },
     columnTitle: {
       type: String,
-      default: ' '
+      default: null
     }
   },
   data() {
@@ -244,7 +245,7 @@ export default {
         }
       }
     },
-    onSelectChange(selectedRowKeys, selectedRows) {
+    onSelectChange(selectedRowKeys) {
       this.selectedRowKeys = selectedRowKeys
       this.$emit('rowSelectionChange', this.selectedRowKeys)
     },
@@ -254,6 +255,9 @@ export default {
     onShowSizeChange(current, pageSize) {
       let val = { current, pageSize }
       this.$emit('sizeChange', val)
+    },
+    onSelectAll() {
+      this.$emit('onSelectAll')
     },
     setDisabled(row, btn) {
       var flag = false
