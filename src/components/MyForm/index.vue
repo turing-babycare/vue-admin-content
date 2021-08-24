@@ -91,7 +91,8 @@ export default {
         if (Object.keys(val).length) {
           this.itemData = val
         }
-      }
+      },
+      deep: true
     },
     formItem: {
       immediate: true,
@@ -101,7 +102,8 @@ export default {
           .map((i) => {
             this.$set(this.itemData, i.name, this.formData[i.name] || undefined)
           })
-      }
+      },
+      deep: true
     }
   },
   computed: {

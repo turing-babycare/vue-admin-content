@@ -14,7 +14,9 @@
           ? {
               type: multiple ? 'checkbox' : 'radio',
               selectedRowKeys: selectedRowKeys,
-              onChange: onSelectChange
+              onChange: onSelectChange,
+              getCheckboxProps: getCheckboxProps,
+              columnTitle: columnTitle
             }
           : null
       "
@@ -25,7 +27,6 @@
       :expandedRowKeys="expandedRowKeys"
       @expandedRowsChange="expandedRowsChange"
     >
-      {{ showColumn }}
       <template v-for="item in showColumn">
         <a-table-column
           v-if="item.type === 'action'"
@@ -214,6 +215,10 @@ export default {
       default() {
         return 'children'
       }
+    },
+    columnTitle: {
+      type: String,
+      default: ' '
     }
   },
   data() {
@@ -232,7 +237,14 @@ export default {
   methods: {
     ellipsisTxt,
     genderOption,
-    onSelectChange(selectedRowKeys) {
+    getCheckboxProps(record) {
+      return {
+        props: {
+          disabled: record.checkDisable
+        }
+      }
+    },
+    onSelectChange(selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys
       this.$emit('rowSelectionChange', this.selectedRowKeys)
     },

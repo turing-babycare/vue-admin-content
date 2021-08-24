@@ -259,7 +259,6 @@ export default {
   watch: {
     formData: {
       immediate: true,
-      deep: true,
       handler(val) {
         this.formData = val
       }

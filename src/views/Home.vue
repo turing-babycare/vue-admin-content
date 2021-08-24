@@ -2,7 +2,7 @@
   <div>
     <!--表单-->
     <Myform
-      :rules="{}"
+      :rules="rules"
       :formData="formData"
       :form="form"
       :formItem="formItem"
@@ -38,6 +38,7 @@
       @rowSelectionChange="rowSelectionChange"
       :multiple="true"
       :page="page"
+      :columnTitle="' '"
     >
     </MyTable>
   </div>
@@ -148,25 +149,11 @@ export default Vue.extend({
           ]
         },
         {
-          type: 'select',
-          holder: '请选择负责人',
-          label: '负责人',
-          name: 'leader',
-          showSearch: true,
-          options: [
-            {
-              value: 1,
-              label: '名字'
-            },
-            {
-              value: 2,
-              label: '名字'
-            },
-            {
-              value: 3,
-              label: '名字'
-            }
-          ]
+          type: 'input',
+          holder: '请输入科室名称',
+          label: '科室名称',
+          name: 'name',
+          maxLength: 50
         }
       ],
       formData: {
@@ -184,6 +171,10 @@ export default Vue.extend({
           }
         }
       } as any,
+      rules: {
+        name: [{ required: true, message: '请输入科室名称', trigger: 'blur' }],
+        leader: [{ required: true, message: '请选择负责人', trigger: 'change' }]
+      },
       // table
       columns: [
         {
@@ -230,7 +221,8 @@ export default Vue.extend({
           his: 'HIS-ID',
           message: '信息同步',
           headstream: '号源同步',
-          state: '状态'
+          state: '状态',
+          checkDisable: true
         },
         {
           name: '科室名称2',
@@ -239,7 +231,8 @@ export default Vue.extend({
           his: 'HIS-ID',
           message: '信息同步',
           headstream: '号源同步',
-          state: '状态'
+          state: '状态',
+          checkDisable: false
         },
         {
           name: '科室名称3',
@@ -248,7 +241,8 @@ export default Vue.extend({
           his: 'HIS-ID',
           message: '信息同步',
           headstream: '号源同步',
-          state: '状态'
+          state: '状态',
+          checkDisable: true
         },
         {
           name: '科室名称4',
@@ -257,7 +251,8 @@ export default Vue.extend({
           his: 'HIS-ID',
           message: '信息同步',
           headstream: '号源同步',
-          state: '状态'
+          state: '状态',
+          checkDisable: false
         }
       ],
       operation: {
@@ -383,14 +378,22 @@ export default Vue.extend({
     },
     // 全选
     rowSelectionAll() {
-      ;(this.$refs.myTable as any).onSelectChange(
-        this.data.map((it, index) => index)
-      )
+      // console.log(this.data.map((i) => !i.checkDisable))
+      const index = this.data
+        .filter((i) => !i.checkDisable)
+        .map((it) => {
+          return _.findIndex(this.data, function (o) {
+            return o.name === it.name
+          })
+        })
+      ;(this.$refs.myTable as any).onSelectChange(index)
     },
     // 反选
     rowSelectionInvert() {
       const res = this.data.filter((it, index) => {
-        return !this.rowSelectionList.some((i) => i === index)
+        return (
+          !this.rowSelectionList.some((i) => i === index) && !it.checkDisable
+        )
       }) as any
       const index = res.map((it) => {
         return _.findIndex(this.data, function (o) {
