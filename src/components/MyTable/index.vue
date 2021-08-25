@@ -256,8 +256,10 @@ export default {
       let val = { current, pageSize }
       this.$emit('sizeChange', val)
     },
-    onSelectAll() {
-      this.$emit('onSelectAll')
+    onSelectAll(selected) {
+      if (selected) {
+        this.$emit('onSelectAll')
+      }
     },
     setDisabled(row, btn) {
       var flag = false

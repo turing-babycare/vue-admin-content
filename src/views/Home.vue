@@ -222,7 +222,7 @@ export default Vue.extend({
           message: '信息同步',
           headstream: '号源同步',
           state: '状态',
-          checkDisable: true
+          checkDisable: false
         },
         {
           name: '科室名称2',
@@ -232,7 +232,7 @@ export default Vue.extend({
           message: '信息同步',
           headstream: '号源同步',
           state: '状态',
-          checkDisable: false
+          checkDisable: true
         },
         {
           name: '科室名称3',
@@ -242,10 +242,30 @@ export default Vue.extend({
           message: '信息同步',
           headstream: '号源同步',
           state: '状态',
-          checkDisable: true
+          checkDisable: false
         },
         {
           name: '科室名称4',
+          synopsis: '科室简介',
+          location: '科室位置',
+          his: 'HIS-ID',
+          message: '信息同步',
+          headstream: '号源同步',
+          state: '状态',
+          checkDisable: true
+        },
+        {
+          name: '科室名称5',
+          synopsis: '科室简介',
+          location: '科室位置',
+          his: 'HIS-ID',
+          message: '信息同步',
+          headstream: '号源同步',
+          state: '状态',
+          checkDisable: false
+        },
+        {
+          name: '科室名称6',
           synopsis: '科室简介',
           location: '科室位置',
           his: 'HIS-ID',
@@ -374,7 +394,7 @@ export default Vue.extend({
       const res = this.data
         .filter((it, index) => this.rowSelectionList.some((i) => i == index))
         .map((m) => m.name)
-      console.log(res)
+      // console.log(res)
     },
     // 全选
     rowSelectionAll() {
