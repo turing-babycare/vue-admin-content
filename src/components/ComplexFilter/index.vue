@@ -1,6 +1,22 @@
 <template>
   <div class="complex-box">
     <div class="layout">
+      <div
+        class="footer"
+        :style="searchBtn.search_style"
+        v-if="searchBtn.postion === 'top'"
+      >
+        <a-button
+          v-if="!isEdit"
+          v-show="queryArray.length !== originalFilterData.length"
+          icon="plus"
+          @click="addFilter"
+          >添加筛选条件</a-button
+        >
+        <div>
+          <slot v-for="item in searchBtn.btn" :name="item.slotName"></slot>
+        </div>
+      </div>
       <a-table
         style="background: #fff"
         :dataSource="queryArray"
@@ -85,7 +101,11 @@
           </div>
         </template>
       </a-table>
-      <div class="footer">
+      <div
+        class="footer"
+        :style="searchBtn.search_style"
+        v-if="searchBtn.position === 'bottom'"
+      >
         <div :class="queryArray.length ? 'show' : 'hide'" v-if="taskShow">
           当前筛选条件下共包含
           <span class="number">{{
@@ -104,6 +124,9 @@
           @click="addFilter"
           >添加筛选条件</a-button
         >
+        <div>
+          <slot v-for="item in searchBtn.btn" :name="item.slotName"></slot>
+        </div>
         <a-button icon="plus" @click="copy" v-if="taskShow && isEdit"
           >以此条件再次创建任务
         </a-button>
@@ -286,6 +309,13 @@ export default {
     isEdit: {
       default() {
         return false
+      }
+    },
+    searchBtn: {
+      default() {
+        return {
+          position: 'bottom'
+        }
       }
     },
     originalFilterData: {
@@ -621,7 +651,6 @@ export default {
 <style lang="scss" scoped>
 .complex-box {
   .layout {
-    width: 800px;
     .age_box {
       margin-top: 10px;
       margin-right: 34px;

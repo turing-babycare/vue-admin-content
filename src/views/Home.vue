@@ -16,7 +16,15 @@
       :isEdit="isEdit"
       :taskShow="false"
       :originalFilterData="conditionData"
-    ></ComplexFilter>
+      :searchBtn="searchBtn"
+    >
+      <template #add>
+        <a-button style="margin: 0px 10px">新增</a-button>
+      </template>
+      <template #search>
+        <a-button>搜索</a-button>
+      </template>
+    </ComplexFilter>
     <a-row>
       <a-col :span="4">
         <a-button type="primary" @click="rowSelectionAll"> 全选 </a-button>
@@ -305,6 +313,21 @@ export default Vue.extend({
           ]
         }
       },
+      searchBtn: {
+        postion: 'top',
+        search_style: 'justify-content: start;margin-bottom:10px',
+        btn: [
+          {
+            type: 'slot',
+            slotName: 'add'
+          },
+          {
+            type: 'slot',
+            slotName: 'search'
+          }
+        ]
+      },
+
       conditionData: [
         {
           label: '渠道',
