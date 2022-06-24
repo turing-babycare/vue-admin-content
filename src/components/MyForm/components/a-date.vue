@@ -6,6 +6,7 @@
       :disabled="item.disabled"
       :disabled-date="item.disabledDate"
       :disabled-time="item.disabledRangeTime"
+      :showToday="!item.showToday"
       type="date"
       :placeholder="item.holder || '请选择日期'"
       :style="item.style || 'width: 90%;'"
